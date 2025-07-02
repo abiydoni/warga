@@ -1,7 +1,7 @@
 <?php
 // db.php
 $host = 'localhost';
-$db = 'appsbeem_jimpitan';
+$db = 'appsbeem_warga';
 $user = 'appsbeem_admin';
 $pass = 'A7by777__';
 
