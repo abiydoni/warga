@@ -142,10 +142,8 @@ $user = $_SESSION['user'];
         </form>
       </div>
     </div>
-    <button onclick="logout()" class="bg-red-600 hover:bg-red-700 px-3 py-2 rounded-md text-white shadow" title="Logout">
-      <i class='bx bx-log-out text-xl'></i>
-    </button>
-    <script>
+
+<script>
     $(document).ready(function() {
       // Load data user
       function loadUsers() {
