@@ -1412,6 +1412,7 @@ $user = $_SESSION['user'];
         currentPage = 1;
         renderTable(filteredWarga, currentPage);
         renderPagination(filteredWarga, currentPage);
+        updateRekap();
       });
       
       // Reset search
@@ -1425,6 +1426,7 @@ $user = $_SESSION['user'];
         currentPage = 1;
         renderTable(filteredWarga, currentPage);
         renderPagination(filteredWarga, currentPage);
+        updateRekap();
       });
       
       // Print button
@@ -2078,18 +2080,20 @@ $user = $_SESSION['user'];
 
     // Tambahkan fungsi update rekap jumlah warga dan KK berbasis allWarga
     function updateRekap() {
-      // Jumlah warga unik berdasarkan nik
-      const nikSet = new Set(allWarga.map(w => w.nik).filter(nik => nik && nik !== ''));
+      // Jumlah warga unik berdasarkan nik (filtered)
+      const nikSet = new Set(filteredWarga.map(w => w.nik).filter(nik => nik && nik !== ''));
       document.getElementById('jumlahWarga').textContent = 'Jumlah Warga: ' + nikSet.size;
-      // Jumlah KK unik berdasarkan nikk (tidak kosong/null)
-      const nikkSet = new Set(allWarga.map(w => w.nikk).filter(nikk => nikk && nikk !== ''));
+      // Jumlah KK unik berdasarkan nikk (filtered)
+      const nikkSet = new Set(filteredWarga.map(w => w.nikk).filter(nikk => nikk && nikk !== ''));
       document.getElementById('jumlahKK').textContent = 'Jumlah KK: ' + nikkSet.size;
     }
     // Panggil updateRekap setiap kali data warga selesai load
     const origLoadData = loadData;
     loadData = function() {
       origLoadData();
-      setTimeout(updateRekap, 500); // Tunggu data warga terisi
+      setTimeout(function() {
+        updateRekap();
+      }, 500); // Tunggu data warga terisi
     };
     // Panggil juga saat halaman pertama kali
     setTimeout(updateRekap, 1000);
