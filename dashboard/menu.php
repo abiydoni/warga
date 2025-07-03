@@ -67,9 +67,9 @@ $user = $_SESSION['user'];
         <div class="sticky top-0 bg-white border-b pb-2 mb-4 text-black">
           <h2 id="menuModalTitle" class="text-lg font-bold">Tambah Menu</h2>
         </div>
-        <form id="menuForm" class="text-sm text-black">
-          <input type="hidden" name="id" id="menu_id">
+        <form id="menuForm" class="text-sm text-black" method="post" action="api/menu_action.php">
           <input type="hidden" name="action" id="menuFormAction" value="create">
+          <input type="hidden" name="id" id="menu_id">
           <div class="mb-2">
             <label class="block text-xs font-medium mb-0.5">Nama Menu *</label>
             <input type="text" name="nama" id="menu_nama" class="w-full border px-2 py-0.5 rounded text-sm form-input" required>
@@ -84,15 +84,15 @@ $user = $_SESSION['user'];
           </div>
           <div class="mb-2 flex gap-2">
             <label class="flex items-center gap-1">
-              <input type="number" name="s_admin" class="form-input border rounded w-12 input_s_admin" min="0" max="1" required>
+              <input type="checkbox" name="s_admin" class="menu_s_admin accent-blue-500" value="1">
               Super Admin
             </label>
             <label class="flex items-center gap-1">
-              <input type="number" name="admin" class="form-input border rounded w-12 input_admin" min="0" max="1" required>
+              <input type="checkbox" name="admin" class="menu_admin accent-blue-500" value="1">
               Admin
             </label>
             <label class="flex items-center gap-1">
-              <input type="number" name="user" class="form-input border rounded w-12 input_user" min="0" max="1" required>
+              <input type="checkbox" name="user" class="menu_user accent-blue-500" value="1">
               User
             </label>
           </div>
@@ -182,42 +182,6 @@ $user = $_SESSION['user'];
       $('.input_admin').val($(this).data('admin'));
       $('.input_user').val($(this).data('user'));
       $('#menuModal').removeClass('hidden').addClass('modal-show');
-    });
-    // Submit form tambah/edit menu
-    $(document).on('submit', '#menuForm', function(e) {
-      e.preventDefault();
-      const $form = $(this);
-      console.log('Form yang disubmit:', $form[0]);
-      $form.find('.menu_s_admin, .menu_admin, .menu_user').each(function() {
-        console.log('Checkbox', this, 'checked:', $(this).is(':checked'));
-      });
-      const action = $('#menuFormAction').val() === 'edit' ? 'update' : 'create';
-      const id = $('#menu_id').val();
-      const nama = $('#menu_nama').val();
-      const url_nama = $('#menu_url_nama').val();
-      const ikon = $('#menu_ikon').val();
-      const s_admin = $form.find('input[name="s_admin"]').val();
-      const admin = $form.find('input[name="admin"]').val();
-      const user = $form.find('input[name="user"]').val();
-      const data = { action, id, nama, url_nama, ikon, s_admin, admin, user };
-      console.log('Data yang dikirim ke backend:', data);
-      $.post('api/menu_action.php', data, function(res) {
-        if (res.success) {
-          $('#menuModal').removeClass('modal-show').addClass('hidden');
-          loadMenus();
-          Swal.fire({
-            toast: true,
-            position: 'top-end',
-            icon: 'success',
-            title: 'Menu berhasil disimpan.',
-            showConfirmButton: false,
-            timer: 2000,
-            timerProgressBar: true
-          });
-        } else {
-          Swal.fire('Gagal', res.message || 'Gagal menyimpan menu', 'error');
-        }
-      }, 'json');
     });
     // SweetAlert konfirmasi hapus (delegasi)
     $(document).on('click', '.deleteMenuBtn', function() {
