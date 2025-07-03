@@ -107,8 +107,8 @@ $user = $_SESSION['user'];
               <small>💡 Tips pencarian: Cari berdasarkan nama, NIK, alamat, atau tanggal lahir. Contoh: "Ahmad", "1234567890123456", "Jl. Sudirman", "15-08-1990", "15", "08", "1990", "agustus", "90an"</small>
             </div>
             
-            <div id="table-container">
-                <table class="min-w-full border-collapse border border-gray-200 shadow-lg rounded-lg overflow-hidden text-xs bg-white text-black" style="width:100%">
+            <div id="table-container" class="overflow-x-auto">
+                <table class="min-w-full w-full border-collapse border border-gray-200 shadow-lg rounded-lg overflow-hidden text-xs bg-white text-black" style="width:100%">
                     <thead class="bg-gray-200 text-black">
                         <tr>
                             <th class="py-2 px-3 w-10 border">No</th>
