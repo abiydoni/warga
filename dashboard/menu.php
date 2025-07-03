@@ -152,14 +152,14 @@ $user = $_SESSION['user'];
     }
     loadMenus();
 
-    // Sinkronisasi checkbox dan input hidden
-    $('#menu_s_admin').on('change', function() {
+    // Sinkronisasi checkbox dan input hidden (pakai event delegation)
+    $(document).on('change', '#menu_s_admin', function() {
       $('#hidden_s_admin').val(this.checked ? 1 : 0);
     });
-    $('#menu_admin').on('change', function() {
+    $(document).on('change', '#menu_admin', function() {
       $('#hidden_admin').val(this.checked ? 1 : 0);
     });
-    $('#menu_user').on('change', function() {
+    $(document).on('change', '#menu_user', function() {
       $('#hidden_user').val(this.checked ? 1 : 0);
     });
 
