@@ -142,8 +142,7 @@ $user = $_SESSION['user'];
         </form>
       </div>
     </div>
-
-<script>
+    <script>
     $(document).ready(function() {
       // Load data user
       function loadUsers() {
