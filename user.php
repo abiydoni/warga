@@ -27,28 +27,37 @@ $totalPages = max(1, ceil($total/$limit));
   <title>Daftar User</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="css/table-style.css">
+  <style>
+    .table-header-flex { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; margin-bottom: 10px; gap: 8px; }
+    .table-header-flex .info { font-size: 13px; color: #555; }
+    .table-header-flex .controls { display: flex; gap: 8px; }
+    @media (max-width: 600px) {
+      .table-header-flex { flex-direction: column; align-items: stretch; gap: 6px; }
+      .table-header-flex .controls { flex-direction: column; gap: 6px; }
+    }
+  </style>
 </head>
 <body>
 <div class="table-responsive">
-  <div class="table-controls">
-    <div style="flex:1;min-width:180px;">
-      <span style="font-size:13px; color:#555;">
-        Menampilkan <?=count($users)?> dari <?=$total?> data user
-        <?php if($total>0): ?> (Halaman <?=$page?>/<?=$totalPages?>)<?php endif; ?>
-      </span>
+  <div class="table-header-flex">
+    <div class="info">
+      Menampilkan <?=count($users)?> dari <?=$total?> data user<?php if($total>0): ?> (Halaman <?=$page?>/<?=$totalPages?>)<?php endif; ?>
     </div>
-    <form method="get" style="display:inline-block;">
-      <input type="search" name="search" value="<?= htmlspecialchars($search) ?>" placeholder="Cari user...">
-      <button type="submit">Cari</button>
-    </form>
-    <form method="get" style="display:inline-block;">
-      <input type="hidden" name="search" value="<?= htmlspecialchars($search) ?>">
-      <select name="limit" onchange="this.form.submit()">
-        <?php foreach ([10,25,50,100] as $opt): ?>
-        <option value="<?= $opt ?>" <?= $limit==$opt?'selected':'' ?>><?= $opt ?> baris</option>
-        <?php endforeach; ?>
-      </select>
-    </form>
+    <div class="controls">
+      <form method="get" style="display:inline-block;">
+        <input type="search" name="search" value="<?= htmlspecialchars($search) ?>" placeholder="Cari user...">
+        <input type="hidden" name="limit" value="<?= $limit ?>">
+        <button type="submit">Cari</button>
+      </form>
+      <form method="get" style="display:inline-block;">
+        <input type="hidden" name="search" value="<?= htmlspecialchars($search) ?>">
+        <select name="limit" onchange="this.form.submit()">
+          <?php foreach ([10,25,50,100] as $opt): ?>
+          <option value="<?= $opt ?>" <?= $limit==$opt?'selected':'' ?>><?= $opt ?> baris</option>
+          <?php endforeach; ?>
+        </select>
+      </form>
+    </div>
   </div>
   <table class="custom-table">
     <thead>
