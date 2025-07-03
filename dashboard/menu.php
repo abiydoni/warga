@@ -165,9 +165,10 @@ $user = $_SESSION['user'];
       $('#menu_user').prop('checked', $(this).data('user') == 1);
       $('#menuModal').removeClass('hidden').addClass('modal-show');
     });
-    // Submit form tambah/edit menu
-    $('#menuForm').submit(function(e) {
+    // Submit form tambah/edit menu (pakai event delegation agar selalu terpasang)
+    $(document).on('submit', '#menuForm', function(e) {
       e.preventDefault();
+      console.log('Form submit event triggered');
       const action = $('#menuFormAction').val() === 'edit' ? 'update' : 'create';
       const id = $('#menu_id').val();
       const nama = $('#menu_nama').val();
