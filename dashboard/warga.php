@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (!isset($_SESSION['user'])) {
-    header('Location: ../index');
+    header('Location: ../');
     exit;
 }
 $user = $_SESSION['user'];
@@ -51,7 +51,7 @@ $user = $_SESSION['user'];
       <h1 class="text-2xl md:text-3xl font-bold">
         <i class='bx bx-group'></i> Data Warga
       </h1>
-      <a href="index" class="bg-blue-600 hover:bg-blue-700 px-3 py-2 rounded-md text-white shadow flex items-center gap-2" title="Kembali ke Dashboard">
+      <a href="/" class="bg-blue-600 hover:bg-blue-700 px-3 py-2 rounded-md text-white shadow flex items-center gap-2" title="Kembali ke Dashboard">
         <i class='bx bx-arrow-back text-xl'></i>
       </a>
     </div>
@@ -561,7 +561,7 @@ $user = $_SESSION['user'];
 
     // Fungsi untuk load data
     function loadData() {
-      $.post('dashboard/api/warga_action', { action: 'read' }, function(data) {
+      $.post('dashboard/api/warga_action.php', { action: 'read' }, function(data) {
         // Data dari API sudah object, tidak perlu JSON.parse
         allWarga = Array.isArray(data) ? data : [];
         filteredWarga = allWarga;
@@ -719,7 +719,7 @@ $user = $_SESSION['user'];
       $('#biodataContent').html('<div class="text-center py-8"><div class="animate-spin border-4 border-blue-500 border-t-transparent rounded-full w-8 h-8 mx-auto"></div><p class="mt-2">Memuat biodata...</p></div>');
       $('#modalBiodata').removeClass('hidden').addClass('modal-show');
       
-      $.post('dashboard/api/warga_action', { action: 'get_warga_by_nik', nik: nik }, function(data) {
+      $.post('dashboard/api/warga_action.php', { action: 'get_warga_by_nik', nik: nik }, function(data) {
         // Data dari API sudah object, tidak perlu JSON.parse
         displayBiodata(data);
       }).fail(function(xhr, status, error) {
@@ -741,7 +741,7 @@ $user = $_SESSION['user'];
       $('#kkContent').html('<div class="text-center py-8"><div class="animate-spin border-4 border-green-500 border-t-transparent rounded-full w-8 h-8 mx-auto"></div><p class="mt-2">Memuat data KK...</p></div>');
       $('#modalKK').removeClass('hidden').addClass('modal-show');
       
-      $.post('dashboard/api/warga_action', { action: 'get_kk_by_nikk', nikk: nikk }, function(data) {
+      $.post('dashboard/api/warga_action.php', { action: 'get_kk_by_nikk', nikk: nikk }, function(data) {
         // Data dari API sudah object, tidak perlu JSON.parse
         displayKK(data);
       }).fail(function(xhr, status, error) {
@@ -1442,7 +1442,7 @@ $user = $_SESSION['user'];
         $('#progressBar').css('width', '30%');
         $('#progressText').text('30% selesai');
         
-        $.post('dashboard/api/warga_action', { action: 'read' }, function(data) {
+        $.post('dashboard/api/.php', { action: 'read' }, function(data) {
           $('#loadingText').text('Sedang memproses data...');
           $('#progressBar').css('width', '60%');
           $('#progressText').text('60% selesai');
@@ -1620,7 +1620,7 @@ $user = $_SESSION['user'];
             $('#progressText').text('60% selesai');
             
             // Kirim data ke server
-            $.post('dashboard/api/warga_action', { 
+            $.post('dashboard/api/warga_action.php', { 
               action: 'import_excel', 
               data: JSON.stringify(validData) 
             }, function(response) {
@@ -1771,7 +1771,7 @@ $user = $_SESSION['user'];
         submitBtn.prop('disabled', true).text('Menyimpan...');
         
         $.ajax({
-          url: 'dashboard/api/warga_action',
+          url: 'dashboard/api/warga_action.php',
           type: 'POST',
           data: formData,
           processData: false,
@@ -2023,7 +2023,7 @@ $user = $_SESSION['user'];
           cancelButtonText: 'Batal'
         }).then((result) => {
           if (result.isConfirmed) {
-            $.post('dashboard/api/warga_action', { action: 'delete', id_warga: id }, function(res) {
+            $.post('dashboard/api/warga_action.php', { action: 'delete', id_warga: id }, function(res) {
               // Handle response that's already parsed as object by jQuery
               let result;
               if (typeof res === 'object') {
