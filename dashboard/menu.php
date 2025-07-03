@@ -154,6 +154,7 @@ $user = $_SESSION['user'];
     });
     // Tampilkan modal edit menu (delegasi karena tombol dinamis)
     $(document).on('click', '.editMenuBtn', function() {
+      $('#menuForm')[0].reset();
       $('#menuModalTitle').text('Edit Menu');
       $('#menuFormAction').val('edit');
       $('#menu_id').val($(this).data('id'));
