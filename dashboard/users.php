@@ -18,7 +18,7 @@ $user = $_SESSION['user'];
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
   <link rel="stylesheet" href="../css/modal-fix.css">
-  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="css/style.css">
 
   <style>
     .main-content { position: relative; z-index: 1; }
@@ -32,7 +32,7 @@ $user = $_SESSION['user'];
   </style>
 </head>
 <body class="bg-hero min-h-screen text-black font-sans antialiased">
-  <div class="table-data main-content min-h-screen p-6">
+  <div class="main-content min-h-screen p-6">
     <div class="flex justify-between items-center mb-8">
       <h1 class="text-2xl md:text-3xl font-bold">
         <i class='bx bx-user'></i> Kelola User
@@ -46,8 +46,8 @@ $user = $_SESSION['user'];
         <i class='bx bx-plus text-xl'></i>
       </button>
     </div>
-    <div id="table-container" class="order overflow-x-auto">
-      <table id="example" class="min-w-full w-full border-collapse border border-gray-200 shadow-lg rounded-lg overflow-hidden text-xs bg-white text-black" style="width:100%">
+    <div id="table-container" class="overflow-x-auto">
+      <table class="min-w-full w-full border-collapse border border-gray-200 shadow-lg rounded-lg overflow-hidden text-xs bg-white text-black" style="width:100%">
         <thead class="bg-gray-200 text-black">
           <tr>
             <th class="py-2 px-3 w-10 border">No</th>
