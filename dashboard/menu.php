@@ -213,6 +213,18 @@ $user = $_SESSION['user'];
         }
       });
     });
+    // Notifikasi sukses setelah submit form native
+    if (window.location.search.includes('success=1')) {
+      Swal.fire({
+        toast: true,
+        position: 'top-end',
+        icon: 'success',
+        title: 'Menu berhasil disimpan.',
+        showConfirmButton: false,
+        timer: 2000,
+        timerProgressBar: true
+      });
+    }
   });
   </script>
 </body>
