@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -16,7 +17,7 @@
 
   <style>
     body {
-      background-image: url('https://images.unsplash.com/photo-1570135996210-44a68f0344ec?auto=format&fit=crop&w=1920&q=80');
+      background-image: url('assets/img/bg.jpg'); /* Ganti sesuai gambar */
       background-size: cover;
       background-position: center;
       background-attachment: fixed;
@@ -33,7 +34,7 @@
     <div class="text-center px-6">
       <h1 class="text-4xl md:text-6xl font-bold mb-4 animate-fade-in-up">Sistem Pengelolaan Data Warga</h1>
       <p class="text-lg md:text-xl mb-6 text-gray-200 animate-fade-in-up delay-200">
-        Kelola data warga, iuran, dan laporan secara digital dan mudah.
+        Kelola data warga dan laporan secara digital dan mudah.
       </p>
       <button onclick="showLogin()" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-full shadow-lg transition transform hover:scale-105 hover:shadow-xl text-lg font-medium">
         <i class='bx bx-log-in-circle mr-2 text-xl'></i> Login Admin
@@ -43,37 +44,8 @@
 
   <!-- Footer -->
   <footer class="absolute bottom-4 w-full text-center text-sm text-gray-300">
-    &copy; <?= date("Y") ?> Sistem Data Warga by Abiy
+    &copy; <?= date("Y") ?> Sistem Data Warga by Abiy Doni
   </footer>
-
-  <!-- SweetAlert Login (Demo) -->
-  <script>
-    function showLogin() {
-      Swal.fire({
-        title: 'Login Admin',
-        html: `
-          <input type="text" id="username" class="swal2-input" placeholder="Username">
-          <input type="password" id="password" class="swal2-input" placeholder="Password">
-        `,
-        confirmButtonText: 'Masuk',
-        showCancelButton: true,
-        focusConfirm: false,
-        preConfirm: () => {
-          const username = Swal.getPopup().querySelector('#username').value
-          const password = Swal.getPopup().querySelector('#password').value
-          if (!username || !password) {
-            Swal.showValidationMessage(`Harap isi username dan password`)
-          }
-          return { username: username, password: password }
-        }
-      }).then((result) => {
-        if (result.isConfirmed) {
-          // Simulasi login, arahkan ke halaman login.php
-          window.location.href = 'login.php';
-        }
-      })
-    }
-  </script>
 
   <!-- Tailwind animation utilities -->
   <script>
@@ -94,5 +66,88 @@
     }
   </script>
 
+  <!-- SweetAlert Login -->
+  <script>
+    function showLogin() {
+      Swal.fire({
+        title: '<span class="text-white font-bold text-2xl">🔐 Login Admin</span>',
+        html: `
+          <div class="flex flex-col gap-4 text-left text-white">
+            <div class="relative">
+              <i class='bx bx-user absolute left-3 top-3 text-xl text-blue-300'></i>
+              <input id="username" type="text" placeholder="Username" class="pl-10 py-2 w-full rounded-md bg-white/10 border border-blue-300 text-white focus:ring-2 focus:ring-blue-500 focus:outline-none placeholder:text-gray-300" />
+            </div>
+            <div class="relative">
+              <i class='bx bx-lock-alt absolute left-3 top-3 text-xl text-blue-300'></i>
+              <input id="password" type="password" placeholder="Password" class="pl-10 py-2 w-full rounded-md bg-white/10 border border-blue-300 text-white focus:ring-2 focus:ring-blue-500 focus:outline-none placeholder:text-gray-300" />
+            </div>
+          </div>
+        `,
+        background: 'rgba(30, 41, 59, 0.6)',
+        showCancelButton: true,
+        confirmButtonText: 'Masuk',
+        cancelButtonText: 'Batal',
+        focusConfirm: false,
+        customClass: {
+          popup: 'backdrop-blur-xl rounded-xl border border-blue-500',
+          confirmButton: 'bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded transition',
+          cancelButton: 'bg-gray-300 hover:bg-gray-400 text-gray-800 px-4 py-2 rounded transition'
+        },
+        preConfirm: () => {
+          const username = Swal.getPopup().querySelector('#username').value
+          const password = Swal.getPopup().querySelector('#password').value
+          if (!username || !password) {
+            Swal.showValidationMessage('Harap isi Username dan Password')
+          }
+          return { username: username, password: password }
+        }
+      }).then((result) => {
+        if (result.isConfirmed) {
+          const username = result.value.username;
+          const password = result.value.password;
+
+          fetch('cek_login.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: new URLSearchParams({
+              username: username,
+              password: password,
+              redirect_option: 'dashboard'
+            })
+          })
+          .then(response => response.json())
+          .then(data => {
+            if (data.success) {
+              Swal.fire({
+                icon: 'success',
+                title: 'Login Berhasil!',
+                showConfirmButton: false,
+                timer: 1000
+              }).then(() => {
+                window.location.href = 'dashboard';
+              });
+            } else {
+              Swal.fire({
+                icon: 'error',
+                title: 'Login Gagal',
+                text: data.error || 'Gagal login!',
+                background: 'rgba(15,23,42,0.9)',
+                color: '#fff'
+              });
+            }
+          })
+          .catch(error => {
+            Swal.fire({
+              icon: 'error',
+              title: 'Terjadi Kesalahan!',
+              text: 'Tidak dapat menghubungi server.',
+              background: '#1e293b',
+              color: '#fff'
+            });
+          });
+        }
+      });
+    }
+  </script>
 </body>
 </html>

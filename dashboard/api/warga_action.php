@@ -1,4 +1,5 @@
 <?php
+ob_clean();
 // File: warga_action.php
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
@@ -91,7 +92,7 @@ function uploadFoto($file, $oldFoto = '') {
     }
     
     // Buat direktori upload jika belum ada
-    $uploadDir = '../images/warga/';
+    $uploadDir = '../assets/images/warga/';
     if (!is_dir($uploadDir)) {
         mkdir($uploadDir, 0755, true);
     }
@@ -107,7 +108,7 @@ function uploadFoto($file, $oldFoto = '') {
         if ($oldFoto && file_exists('../' . $oldFoto)) {
             unlink('../' . $oldFoto);
         }
-        return 'images/warga/' . $filename;
+        return 'assets/images/warga/' . $filename;
     } else {
         throw new Exception('Gagal mengupload file');
     }
@@ -116,6 +117,11 @@ function uploadFoto($file, $oldFoto = '') {
 try {
     include 'db.php';
     
+    session_start();
+    $user_rt = $_SESSION['user']['rt'] ?? '';
+    $user_rw = $_SESSION['user']['rw'] ?? '';
+    $user_role = $_SESSION['user']['role'] ?? '';
+
     $action = $_POST['action'] ?? '';
 
     if ($action == 'create') {
@@ -164,6 +170,9 @@ try {
             $foto = $_POST['foto'] ?? '';
         }
 
+        // Jika user role 'user', paksa RT dan RW sesuai session
+        $rt = ($user_role === 'user') ? $user_rt : ($_POST['rt'] ?? '');
+        $rw = ($user_role === 'user') ? $user_rw : ($_POST['rw'] ?? '');
         $stmt = $pdo->prepare("INSERT INTO tb_warga (
             nama, nik, hubungan, nikk, jenkel, tpt_lahir, tgl_lahir, alamat, rt, rw,
             kelurahan, kecamatan, kota, propinsi, negara, agama, status, pekerjaan, foto, hp
@@ -171,11 +180,11 @@ try {
 
         $stmt->execute([
             $_POST['nama'] ?? '', $_POST['nik'] ?? '', $_POST['hubungan'] ?? '', $_POST['nikk'] ?? '', $_POST['jenkel'] ?? '',
-            $_POST['tpt_lahir'] ?? '', $tgl_lahir, $_POST['alamat'] ?? '', $_POST['rt'] ?? '', $_POST['rw'] ?? '',
+            $_POST['tpt_lahir'] ?? '', $tgl_lahir, $_POST['alamat'] ?? '', $rt, $rw,
             $_POST['kelurahan'] ?? '', $_POST['kecamatan'] ?? '', $_POST['kota'] ?? '', $_POST['propinsi'] ?? '', $_POST['negara'] ?? '',
             $_POST['agama'] ?? '', $_POST['status'] ?? '', $_POST['pekerjaan'] ?? '', $foto, $_POST['hp'] ?? ''
         ]);
-        echo 'success';
+        echo json_encode(['success' => true, 'message' => 'Data berhasil disimpan']);
 
     } elseif ($action == 'read') {
         try {
@@ -184,26 +193,23 @@ try {
             if ($checkTable->rowCount() == 0) {
                 throw new Exception('Tabel tb_warga tidak ditemukan');
             }
-            
-            // Perbaikan query - menggunakan id_warga sebagai pengurut
-            $stmt = $pdo->query("SELECT * FROM tb_warga ORDER BY id_warga DESC");
-            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            
-            // Debug logging
-            error_log("Read action - Found " . count($result) . " records");
-            
-            // Debug foto data
-            foreach ($result as $index => $row) {
-                if (isset($row['foto']) && !empty($row['foto'])) {
-                    error_log("Record $index - Foto: '" . $row['foto'] . "'");
-                }
+            // Filter data warga berdasarkan RT dan RW user jika user punya rt/rw
+            if ($user_role === 'user' && $user_rt && $user_rw) {
+                $stmt = $pdo->prepare("SELECT * FROM tb_warga WHERE rt = ? AND rw = ? ORDER BY id_warga DESC");
+                $stmt->execute([$user_rt, $user_rw]);
+            } else {
+                $stmt = $pdo->query("SELECT * FROM tb_warga ORDER BY id_warga DESC");
             }
-            
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            ob_clean();
             echo json_encode($result);
+            exit;
         } catch (Exception $e) {
             error_log("Error in read action: " . $e->getMessage());
             http_response_code(500);
+            ob_clean();
             echo json_encode(['error' => 'Database error: ' . $e->getMessage()]);
+            exit;
         }
 
     } elseif ($action == 'update') {
@@ -245,13 +251,22 @@ try {
         }
 
         // Ambil foto lama untuk dihapus jika ada upload baru
-        $stmt = $pdo->prepare('SELECT foto FROM tb_warga WHERE id_warga = ?');
+        $stmt = $pdo->prepare('SELECT foto, rt, rw FROM tb_warga WHERE id_warga = ?');
         $stmt->execute([$_POST['id_warga']]);
-        $oldFoto = $stmt->fetchColumn();
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        $oldFoto = $row['foto'] ?? '';
+        $old_rt = $row['rt'] ?? '';
+        $old_rw = $row['rw'] ?? '';
+
+        // Jika user role 'user', hanya boleh update data dengan RT dan RW yang sama
+        if ($user_role === 'user' && ($old_rt != $user_rt || $old_rw != $user_rw)) {
+            echo json_encode(['success' => false, 'message' => 'Anda hanya bisa mengubah data warga RT/RW Anda sendiri']);
+            exit;
+        }
 
         // Upload foto jika ada
         $foto = $oldFoto;
-        if (isset($_FILES['foto_file']) && $_FILES['foto_file']['error'] === UPLOAD_ERR_OK) {
+        if (isset($_FILES['foto_file']) && $_FILES['foto_file']['error'] === UPLOAD_ERROR_OK) {
             $foto = uploadFoto($_FILES['foto_file'], $oldFoto);
         } else {
             $foto = $_POST['foto'] ?? $oldFoto;
@@ -264,6 +279,9 @@ try {
             error_log("FILES foto_file error: " . $_FILES['foto_file']['error']);
         }
 
+        // Jika user role 'user', paksa RT dan RW tetap sama
+        $rt = ($user_role === 'user') ? $user_rt : ($_POST['rt'] ?? $old_rt);
+        $rw = ($user_role === 'user') ? $user_rw : ($_POST['rw'] ?? $old_rw);
         $stmt = $pdo->prepare("UPDATE tb_warga SET
             nama=?, nik=?, hubungan=?, nikk=?, jenkel=?, tpt_lahir=?, tgl_lahir=?, alamat=?, rt=?, rw=?,
             kelurahan=?, kecamatan=?, kota=?, propinsi=?, negara=?, agama=?, status=?, pekerjaan=?, foto=?, hp=?
@@ -271,11 +289,11 @@ try {
 
         $stmt->execute([
             $_POST['nama'] ?? '', $_POST['nik'] ?? '', $_POST['hubungan'] ?? '', $_POST['nikk'] ?? '', $_POST['jenkel'] ?? '',
-            $_POST['tpt_lahir'] ?? '', $tgl_lahir, $_POST['alamat'] ?? '', $_POST['rt'] ?? '', $_POST['rw'] ?? '',
+            $_POST['tpt_lahir'] ?? '', $tgl_lahir, $_POST['alamat'] ?? '', $rt, $rw,
             $_POST['kelurahan'] ?? '', $_POST['kecamatan'] ?? '', $_POST['kota'] ?? '', $_POST['propinsi'] ?? '', $_POST['negara'] ?? '',
             $_POST['agama'] ?? '', $_POST['status'] ?? '', $_POST['pekerjaan'] ?? '', $foto, $_POST['hp'] ?? '', $_POST['id_warga'] ?? ''
         ]);
-        echo 'updated';
+        echo json_encode(['success' => true, 'message' => 'Data berhasil diupdate']);
 
     } elseif ($action == 'delete') {
         $id_warga = $_POST['id_warga'] ?? '';
@@ -283,10 +301,19 @@ try {
             throw new Exception('ID warga tidak boleh kosong');
         }
         
-        // Ambil foto untuk dihapus
-        $stmt = $pdo->prepare('SELECT foto FROM tb_warga WHERE id_warga = ?');
+        // Ambil foto dan RT/RW untuk cek hak akses
+        $stmt = $pdo->prepare('SELECT foto, rt, rw FROM tb_warga WHERE id_warga = ?');
         $stmt->execute([$id_warga]);
-        $foto = $stmt->fetchColumn();
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        $foto = $row['foto'] ?? '';
+        $old_rt = $row['rt'] ?? '';
+        $old_rw = $row['rw'] ?? '';
+        
+        // Jika user role 'user', hanya boleh hapus data dengan RT dan RW yang sama
+        if ($user_role === 'user' && ($old_rt != $user_rt || $old_rw != $user_rw)) {
+            echo json_encode(['success' => false, 'message' => 'Anda hanya bisa menghapus data warga RT/RW Anda sendiri']);
+            exit;
+        }
         
         // Hapus data warga
         $stmt = $pdo->prepare('DELETE FROM tb_warga WHERE id_warga = ?');
@@ -297,7 +324,7 @@ try {
             unlink('../' . $foto);
         }
         
-        echo 'deleted';
+        echo json_encode(['success' => true, 'message' => 'Data berhasil dihapus']);
         
     } elseif ($action == 'get_warga_by_nik') {
         $nik = $_POST['nik'] ?? '';

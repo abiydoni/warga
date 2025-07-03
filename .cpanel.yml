@@ -1,5 +1,5 @@
 ---
 deployment:
   tasks:
-    - export DEPLOYPATH=/home2/appsbeem/public_html/jimpitan
+    - export DEPLOYPATH=/home2/appsbeem/public_html/warga
     - /bin/cp -R * $DEPLOYPATH

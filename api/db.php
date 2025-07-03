@@ -1,4 +1,5 @@
 <?php
+header('Content-Type: application/json');
 // db.php
 $host = 'localhost';
 $db = 'appsbeem_warga';

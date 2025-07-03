@@ -1,0 +1,14 @@
+Array
+(
+    [0] => Array
+        (
+            [id] => 2
+            [nama] => Data Warga
+            [url_nama] => warga.php
+            [ikon] => bx-group
+            [s_admin] => 1
+            [admin] => 1
+            [user] => 1
+        )
+
+)

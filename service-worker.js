@@ -1,4 +1,4 @@
-const CACHE_NAME = "jimpitan-cache-v1.5";
+const CACHE_NAME = "warga-cache-v1.0";
 const urlsToCache = [
   "/",
   // "login.php",
