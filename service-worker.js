@@ -1,11 +1,5 @@
 const CACHE_NAME = "warga-cache-v1.0";
-const urlsToCache = [
-  "/",
-  // "login.php",
-  "manifest.json",
-  "assets/audio/interface.wav",
-  "assets/image/block.gif",
-];
+const urlsToCache = ["/", "manifest.json", "assets/img/block.gif"];
 
 self.addEventListener("install", (event) => {
   event.waitUntil(
