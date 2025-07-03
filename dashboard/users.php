@@ -31,8 +31,8 @@ $user = $_SESSION['user'];
     }
   </style>
 </head>
-<body class="table-data bg-hero min-h-screen text-black font-sans antialiased">
-  <div class="order main-content min-h-screen p-6">
+<body class="bg-hero min-h-screen text-black font-sans antialiased">
+  <div class="table-data main-content min-h-screen p-6">
     <div class="flex justify-between items-center mb-8">
       <h1 class="text-2xl md:text-3xl font-bold">
         <i class='bx bx-user'></i> Kelola User
@@ -46,7 +46,7 @@ $user = $_SESSION['user'];
         <i class='bx bx-plus text-xl'></i>
       </button>
     </div>
-    <div id="table-container" class="overflow-x-auto">
+    <div id="table-container" class="order overflow-x-auto">
       <table id="example" class="min-w-full w-full border-collapse border border-gray-200 shadow-lg rounded-lg overflow-hidden text-xs bg-white text-black" style="width:100%">
         <thead class="bg-gray-200 text-black">
           <tr>
