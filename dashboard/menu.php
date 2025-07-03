@@ -6,45 +6,6 @@ if (!isset($_SESSION['user'])) {
     exit;
 }
 $user = $_SESSION['user'];
-include 'api/db.php';
-
-// Ambil semua menu
-$menus = mysqli_query($conn, "SELECT * FROM tb_menu");
-
-// Fungsi untuk menambah menu
-if (isset($_POST['tambah'])) {
-    $nama = $_POST['nama'];
-    $url_nama = $_POST['url_nama'];
-    $ikon = $_POST['ikon'];
-    $s_admin = isset($_POST['s_admin']) ? 1 : 0;
-    $admin = isset($_POST['admin']) ? 1 : 0;
-    $userx = isset($_POST['user']) ? 1 : 0;
-    mysqli_query($conn, "INSERT INTO tb_menu (nama, url_nama, ikon, s_admin, admin, user) VALUES ('$nama', '$url_nama', '$ikon', $s_admin, $admin, $userx)");
-    header('Location: menu.php');
-    exit;
-}
-
-// Fungsi untuk menghapus menu
-if (isset($_GET['hapus'])) {
-    $id = $_GET['hapus'];
-    mysqli_query($conn, "DELETE FROM tb_menu WHERE id=$id");
-    header('Location: menu.php');
-    exit;
-}
-
-// Fungsi untuk edit menu
-if (isset($_POST['edit'])) {
-    $id = $_POST['id'];
-    $nama = $_POST['nama'];
-    $url_nama = $_POST['url_nama'];
-    $ikon = $_POST['ikon'];
-    $s_admin = isset($_POST['s_admin']) ? 1 : 0;
-    $admin = isset($_POST['admin']) ? 1 : 0;
-    $userx = isset($_POST['user']) ? 1 : 0;
-    mysqli_query($conn, "UPDATE tb_menu SET nama='$nama', url_nama='$url_nama', ikon='$ikon', s_admin=$s_admin, admin=$admin, user=$userx WHERE id=$id");
-    header('Location: menu.php');
-    exit;
-}
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -96,37 +57,7 @@ if (isset($_POST['edit'])) {
           </tr>
         </thead>
         <tbody id="menuDataBody">
-          <?php $no=1; while($row = mysqli_fetch_assoc($menus)): ?>
-          <tr>
-            <td class="py-1 px-2 border text-center"><?= $no++ ?></td>
-            <td class="py-1 px-2 border text-left"><?= htmlspecialchars($row['nama']) ?></td>
-            <td class="py-1 px-2 border text-left"><?= htmlspecialchars($row['url_nama']) ?></td>
-            <td class="py-1 px-2 border text-center">
-              <?php if($row['ikon']): ?>
-                <i class='bx <?= htmlspecialchars($row['ikon']) ?> text-xl'></i><br>
-                <span class="text-xs text-gray-500"><?= htmlspecialchars($row['ikon']) ?></span>
-              <?php endif; ?>
-            </td>
-            <td class="py-1 px-2 border text-center"><?= $row['s_admin'] ? '<i class="bx bx-check text-green-600"></i>' : '' ?></td>
-            <td class="py-1 px-2 border text-center"><?= $row['admin'] ? '<i class="bx bx-check text-green-600"></i>' : '' ?></td>
-            <td class="py-1 px-2 border text-center"><?= $row['user'] ? '<i class="bx bx-check text-green-600"></i>' : '' ?></td>
-            <td class="py-1 px-2 border text-center flex gap-1 justify-center">
-              <button class="editMenuBtn text-blue-600 hover:text-blue-800 font-bold py-1 px-1" 
-                data-id="<?= $row['id'] ?>" 
-                data-nama="<?= htmlspecialchars($row['nama']) ?>" 
-                data-url_nama="<?= htmlspecialchars($row['url_nama']) ?>" 
-                data-ikon="<?= htmlspecialchars($row['ikon']) ?>" 
-                data-s_admin="<?= $row['s_admin'] ?>" 
-                data-admin="<?= $row['admin'] ?>" 
-                data-user="<?= $row['user'] ?>">
-                <i class='bx bx-edit'></i>
-              </button>
-              <button type="button" class="deleteMenuBtn text-red-600 hover:text-red-800 font-bold py-1 px-1 ml-1" data-id="<?= $row['id'] ?>">
-                <i class='bx bx-trash'></i>
-              </button>
-            </td>
-          </tr>
-          <?php endwhile; ?>
+          <!-- Data menu akan di-load via AJAX -->
         </tbody>
       </table>
     </div>
@@ -136,7 +67,7 @@ if (isset($_POST['edit'])) {
         <div class="sticky top-0 bg-white border-b pb-2 mb-4 text-black">
           <h2 id="menuModalTitle" class="text-lg font-bold">Tambah Menu</h2>
         </div>
-        <form id="menuForm" class="text-sm text-black" method="post">
+        <form id="menuForm" class="text-sm text-black">
           <input type="hidden" name="id" id="menu_id">
           <input type="hidden" name="action" id="menuFormAction" value="create">
           <div class="mb-2">
@@ -165,8 +96,47 @@ if (isset($_POST['edit'])) {
     </div>
   </div>
   <script>
-  // Modal logic
   $(document).ready(function() {
+    // Load data menu
+    function loadMenus() {
+      $('#menuDataBody').html('<tr><td colspan="8" class="text-center text-gray-500">Loading...</td></tr>');
+      $.post('api/menu_action.php', { action: 'read' }, function(res) {
+        if (res.success && res.data.length) {
+          let html = '';
+          res.data.forEach((m, i) => {
+            html += `<tr>
+              <td class="py-1 px-2 border text-center">${i+1}</td>
+              <td class="py-1 px-2 border text-left">${m.nama}</td>
+              <td class="py-1 px-2 border text-left">${m.url_nama}</td>
+              <td class="py-1 px-2 border text-center">${m.ikon ? `<i class='bx ${m.ikon} text-xl'></i><br><span class='text-xs text-gray-500'>${m.ikon}</span>` : ''}</td>
+              <td class="py-1 px-2 border text-center">${m.s_admin == 1 ? '<i class=\'bx bx-check text-green-600\'></i>' : ''}</td>
+              <td class="py-1 px-2 border text-center">${m.admin == 1 ? '<i class=\'bx bx-check text-green-600\'></i>' : ''}</td>
+              <td class="py-1 px-2 border text-center">${m.user == 1 ? '<i class=\'bx bx-check text-green-600\'></i>' : ''}</td>
+              <td class="py-1 px-2 border text-center flex gap-1 justify-center">
+                <button class="editMenuBtn text-blue-600 hover:text-blue-800 font-bold py-1 px-1"
+                  data-id="${m.id}"
+                  data-nama="${$('<div>').text(m.nama).html()}"
+                  data-url_nama="${$('<div>').text(m.url_nama).html()}"
+                  data-ikon="${$('<div>').text(m.ikon).html()}"
+                  data-s_admin="${m.s_admin}"
+                  data-admin="${m.admin}"
+                  data-user="${m.user}">
+                  <i class='bx bx-edit'></i>
+                </button>
+                <button type="button" class="deleteMenuBtn text-red-600 hover:text-red-800 font-bold py-1 px-1 ml-1" data-id="${m.id}">
+                  <i class='bx bx-trash'></i>
+                </button>
+              </td>
+            </tr>`;
+          });
+          $('#menuDataBody').html(html);
+        } else {
+          $('#menuDataBody').html('<tr><td colspan="8" class="text-center text-gray-500">Tidak ada data menu.</td></tr>');
+        }
+      }, 'json');
+    }
+    loadMenus();
+
     // Tampilkan modal tambah menu
     $('#tambahMenuBtn').click(function() {
       $('#menuModalTitle').text('Tambah Menu');
@@ -179,8 +149,8 @@ if (isset($_POST['edit'])) {
     $('#cancelMenuBtn').click(function() {
       $('#menuModal').removeClass('modal-show').addClass('hidden');
     });
-    // Tampilkan modal edit menu
-    $('.editMenuBtn').click(function() {
+    // Tampilkan modal edit menu (delegasi karena tombol dinamis)
+    $(document).on('click', '.editMenuBtn', function() {
       $('#menuModalTitle').text('Edit Menu');
       $('#menuFormAction').val('edit');
       $('#menu_id').val($(this).data('id'));
@@ -192,8 +162,8 @@ if (isset($_POST['edit'])) {
       $('#menu_user').prop('checked', $(this).data('user') == 1);
       $('#menuModal').removeClass('hidden').addClass('modal-show');
     });
-    // SweetAlert konfirmasi hapus
-    $('.deleteMenuBtn').click(function() {
+    // SweetAlert konfirmasi hapus (delegasi)
+    $(document).on('click', '.deleteMenuBtn', function() {
       const id = $(this).data('id');
       Swal.fire({
         title: 'Yakin hapus menu ini?',
@@ -205,17 +175,38 @@ if (isset($_POST['edit'])) {
         cancelButtonText: 'Batal'
       }).then((result) => {
         if (result.isConfirmed) {
-          window.location = '?hapus=' + id;
+          $.post('api/menu_action.php', { action: 'delete', id }, function(res) {
+            if (res.success) {
+              loadMenus();
+              Swal.fire('Terhapus!', 'Menu berhasil dihapus.', 'success');
+            } else {
+              Swal.fire('Gagal', res.message || 'Gagal menghapus menu', 'error');
+            }
+          }, 'json');
         }
       });
     });
-    // Submit form menu
+    // Submit form tambah/edit menu
     $('#menuForm').submit(function(e) {
-      if ($('#menuFormAction').val() === 'edit') {
-        $('<input>').attr({type: 'hidden', name: 'edit', value: '1'}).appendTo('#menuForm');
-      } else {
-        $('<input>').attr({type: 'hidden', name: 'tambah', value: '1'}).appendTo('#menuForm');
-      }
+      e.preventDefault();
+      const action = $('#menuFormAction').val() === 'edit' ? 'update' : 'create';
+      const id = $('#menu_id').val();
+      const nama = $('#menu_nama').val();
+      const url_nama = $('#menu_url_nama').val();
+      const ikon = $('#menu_ikon').val();
+      const s_admin = $('#menu_s_admin').is(':checked') ? 1 : 0;
+      const admin = $('#menu_admin').is(':checked') ? 1 : 0;
+      const user = $('#menu_user').is(':checked') ? 1 : 0;
+      const data = { action, id, nama, url_nama, ikon, s_admin, admin, user };
+      $.post('api/menu_action.php', data, function(res) {
+        if (res.success) {
+          $('#menuModal').removeClass('modal-show').addClass('hidden');
+          loadMenus();
+          Swal.fire('Berhasil', 'Menu berhasil disimpan.', 'success');
+        } else {
+          Swal.fire('Gagal', res.message || 'Gagal menyimpan menu', 'error');
+        }
+      }, 'json');
     });
   });
   </script>
