@@ -112,18 +112,18 @@ $user = $_SESSION['user'];
               <td class="py-1 px-2 border text-center">${m.s_admin == 1 ? '<i class=\'bx bx-check text-green-600\'></i>' : ''}</td>
               <td class="py-1 px-2 border text-center">${m.admin == 1 ? '<i class=\'bx bx-check text-green-600\'></i>' : ''}</td>
               <td class="py-1 px-2 border text-center">${m.user == 1 ? '<i class=\'bx bx-check text-green-600\'></i>' : ''}</td>
-              <td class="py-1 px-2 border text-center flex gap-1 justify-center">
-                <button class="editMenuBtn text-blue-600 hover:text-blue-800 font-bold py-1 px-1"
-                  data-id="${m.id}"
-                  data-nama="${$('<div>').text(m.nama).html()}"
-                  data-url_nama="${$('<div>').text(m.url_nama).html()}"
-                  data-ikon="${$('<div>').text(m.ikon).html()}"
-                  data-s_admin="${m.s_admin}"
-                  data-admin="${m.admin}"
-                  data-user="${m.user}">
+              <td class="py-1 px-2 text-center flex gap-1 justify-center border-l">\
+                <button class=\"editMenuBtn text-blue-600 hover:text-blue-800 font-bold py-1 px-1\"
+                  data-id=\"${m.id}\"
+                  data-nama=\"${$('<div>').text(m.nama).html()}\"
+                  data-url_nama=\"${$('<div>').text(m.url_nama).html()}\"
+                  data-ikon=\"${$('<div>').text(m.ikon).html()}\"
+                  data-s_admin=\"${m.s_admin}\"
+                  data-admin=\"${m.admin}\"
+                  data-user=\"${m.user}\">
                   <i class='bx bx-edit'></i>
                 </button>
-                <button type="button" class="deleteMenuBtn text-red-600 hover:text-red-800 font-bold py-1 px-1 ml-1" data-id="${m.id}">
+                <button type=\"button\" class=\"deleteMenuBtn text-red-600 hover:text-red-800 font-bold py-1 px-1 ml-1\" data-id=\"${m.id}\">
                   <i class='bx bx-trash'></i>
                 </button>
               </td>
