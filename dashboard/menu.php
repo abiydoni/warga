@@ -177,6 +177,7 @@ $user = $_SESSION['user'];
       const admin = $('#menu_admin').is(':checked') ? 1 : 0;
       const user = $('#menu_user').is(':checked') ? 1 : 0;
       const data = { action, id, nama, url_nama, ikon, s_admin, admin, user };
+      console.log('Data yang dikirim ke backend:', data);
       $.post('api/menu_action.php', data, function(res) {
         if (res.success) {
           $('#menuModal').removeClass('modal-show').addClass('hidden');
