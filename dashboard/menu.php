@@ -84,15 +84,15 @@ $user = $_SESSION['user'];
           </div>
           <div class="mb-2 flex gap-2">
             <label class="flex items-center gap-1">
-              <input type="checkbox" name="s_admin" class="menu_s_admin accent-blue-500" value="1">
+              <input type="number" name="s_admin" class="form-input border rounded w-12 input_s_admin" min="0" max="1" required>
               Super Admin
             </label>
             <label class="flex items-center gap-1">
-              <input type="checkbox" name="admin" class="menu_admin accent-blue-500" value="1">
+              <input type="number" name="admin" class="form-input border rounded w-12 input_admin" min="0" max="1" required>
               Admin
             </label>
             <label class="flex items-center gap-1">
-              <input type="checkbox" name="user" class="menu_user accent-blue-500" value="1">
+              <input type="number" name="user" class="form-input border rounded w-12 input_user" min="0" max="1" required>
               User
             </label>
           </div>
@@ -177,10 +177,10 @@ $user = $_SESSION['user'];
       $('#menu_nama').val($(this).data('nama'));
       $('#menu_url_nama').val($(this).data('url_nama'));
       $('#menu_ikon').val($(this).data('ikon'));
-      // Set checkbox sesuai data
-      $('.menu_s_admin').prop('checked', $(this).data('s_admin') == 1);
-      $('.menu_admin').prop('checked', $(this).data('admin') == 1);
-      $('.menu_user').prop('checked', $(this).data('user') == 1);
+      // Set input number sesuai data
+      $('.input_s_admin').val($(this).data('s_admin'));
+      $('.input_admin').val($(this).data('admin'));
+      $('.input_user').val($(this).data('user'));
       $('#menuModal').removeClass('hidden').addClass('modal-show');
     });
     // Submit form tambah/edit menu
@@ -196,9 +196,9 @@ $user = $_SESSION['user'];
       const nama = $('#menu_nama').val();
       const url_nama = $('#menu_url_nama').val();
       const ikon = $('#menu_ikon').val();
-      const s_admin = $form.find('.menu_s_admin').is(':checked') ? 1 : 0;
-      const admin = $form.find('.menu_admin').is(':checked') ? 1 : 0;
-      const user = $form.find('.menu_user').is(':checked') ? 1 : 0;
+      const s_admin = $form.find('input[name="s_admin"]').val();
+      const admin = $form.find('input[name="admin"]').val();
+      const user = $form.find('input[name="user"]').val();
       const data = { action, id, nama, url_nama, ikon, s_admin, admin, user };
       console.log('Data yang dikirim ke backend:', data);
       $.post('api/menu_action.php', data, function(res) {
