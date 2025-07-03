@@ -116,7 +116,7 @@ $user = $_SESSION['user'];
     // Load data menu
     function loadMenus() {
       $('#menuDataBody').html('<tr><td colspan="8" class="text-center text-gray-500">Loading...</td></tr>');
-      $.post('api/menu_action', { action: 'read' }, function(res) {
+      $.post('dashboard/api/menu_action', { action: 'read' }, function(res) {
         if (res.success && res.data.length) {
           let html = '';
           res.data.forEach((m, i) => {
@@ -201,7 +201,7 @@ $user = $_SESSION['user'];
         cancelButtonText: 'Batal'
       }).then((result) => {
         if (result.isConfirmed) {
-          $.post('api/menu_action', { action: 'delete', id }, function(res) {
+          $.post('dashboard/api/menu_action', { action: 'delete', id }, function(res) {
             if (res.success) {
               loadMenus();
               Swal.fire({
