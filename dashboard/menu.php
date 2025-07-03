@@ -187,6 +187,10 @@ $user = $_SESSION['user'];
     $(document).on('submit', '#menuForm', function(e) {
       e.preventDefault();
       const $form = $(this);
+      console.log('Form yang disubmit:', $form[0]);
+      $form.find('.menu_s_admin, .menu_admin, .menu_user').each(function() {
+        console.log('Checkbox', this, 'checked:', $(this).is(':checked'));
+      });
       const action = $('#menuFormAction').val() === 'edit' ? 'update' : 'create';
       const id = $('#menu_id').val();
       const nama = $('#menu_nama').val();
