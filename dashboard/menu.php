@@ -20,6 +20,7 @@ $user = $_SESSION['user'];
     <link rel="stylesheet" href="../css/modal-fix.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <link rel="stylesheet" href="../css/style.css">
     <style>
       .main-content { position: relative; z-index: 1; }
       .blur-sm { filter: blur(4px); transition: filter 0.2s; }
