@@ -18,17 +18,13 @@ $user = $_SESSION['user'];
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
   <link rel="stylesheet" href="../css/modal-fix.css">
-  <link rel="stylesheet" href="css/style.css">
-
   <style>
     .main-content { position: relative; z-index: 1; }
     .blur-sm { filter: blur(4px); transition: filter 0.2s; }
     .bg-hero { background-image: url('../assets/img/bg.jpg'); background-size: cover; background-position: center; background-attachment: fixed; position: relative; }
     .bg-hero::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(255,255,255,0.8); z-index: 0; }
     table.min-w-full { font-family: 'Arial', 'Helvetica', 'Tahoma', 'Geneva', 'Verdana', sans-serif; font-size: 12px; }
-    .swal2-container {
-      z-index: 1000001 !important;
-    }
+    .swal2-container { z-index: 1000001 !important; }
   </style>
 </head>
 <body class="bg-hero min-h-screen text-black font-sans antialiased">
@@ -47,7 +43,7 @@ $user = $_SESSION['user'];
       </button>
     </div>
     <div id="table-container" class="overflow-x-auto">
-      <table class="min-w-full w-full border-collapse border border-gray-200 shadow-lg rounded-lg overflow-hidden text-xs bg-white text-black" style="width:100%">
+      <table id="example" class="min-w-full w-full border-collapse border border-gray-200 shadow-lg rounded-lg overflow-hidden text-xs bg-white text-black" style="width:100%">
         <thead class="bg-gray-200 text-black">
           <tr>
             <th class="py-2 px-3 w-10 border">No</th>
@@ -61,7 +57,7 @@ $user = $_SESSION['user'];
           </tr>
         </thead>
         <tbody id="userDataBody">
-          <tr><td colspan="6" class="text-center text-gray-500">Loading...</td></tr>
+          <tr><td colspan="8" class="text-center text-gray-500">Loading...</td></tr>
         </tbody>
       </table>
     </div>
@@ -146,12 +142,11 @@ $user = $_SESSION['user'];
     </div>
 
     <script src="../js/halaman_tabel.js"></script>
-
     <script>
     $(document).ready(function() {
       // Load data user
       function loadUsers() {
-        $('#userDataBody').html('<tr><td colspan="6" class="text-center text-gray-500">Loading...</td></tr>');
+        $('#userDataBody').html('<tr><td colspan="8" class="text-center text-gray-500">Loading...</td></tr>');
         $.post('api/users_action.php', { action: 'read' }, function(res) {
           if (res.success && res.data.length) {
             let html = '';
@@ -173,7 +168,7 @@ $user = $_SESSION['user'];
             });
             $('#userDataBody').html(html);
           } else {
-            $('#userDataBody').html('<tr><td colspan="6" class="text-center text-gray-500">Tidak ada data user.</td></tr>');
+            $('#userDataBody').html('<tr><td colspan="8" class="text-center text-gray-500">Tidak ada data user.</td></tr>');
           }
         }, 'json');
       }
