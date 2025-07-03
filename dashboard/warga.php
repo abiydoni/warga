@@ -561,7 +561,7 @@ $user = $_SESSION['user'];
 
     // Fungsi untuk load data
     function loadData() {
-      $.post('api/warga_action.php', { action: 'read' }, function(data) {
+      $.post('/dashboard/api/warga_action.php', { action: 'read' }, function(data) {
         // Data dari API sudah object, tidak perlu JSON.parse
         allWarga = Array.isArray(data) ? data : [];
         filteredWarga = allWarga;
@@ -719,7 +719,7 @@ $user = $_SESSION['user'];
       $('#biodataContent').html('<div class="text-center py-8"><div class="animate-spin border-4 border-blue-500 border-t-transparent rounded-full w-8 h-8 mx-auto"></div><p class="mt-2">Memuat biodata...</p></div>');
       $('#modalBiodata').removeClass('hidden').addClass('modal-show');
       
-      $.post('api/warga_action.php', { action: 'get_warga_by_nik', nik: nik }, function(data) {
+      $.post('/dashboard/api/warga_action.php', { action: 'get_warga_by_nik', nik: nik }, function(data) {
         // Data dari API sudah object, tidak perlu JSON.parse
         displayBiodata(data);
       }).fail(function(xhr, status, error) {
@@ -741,7 +741,7 @@ $user = $_SESSION['user'];
       $('#kkContent').html('<div class="text-center py-8"><div class="animate-spin border-4 border-green-500 border-t-transparent rounded-full w-8 h-8 mx-auto"></div><p class="mt-2">Memuat data KK...</p></div>');
       $('#modalKK').removeClass('hidden').addClass('modal-show');
       
-      $.post('api/warga_action.php', { action: 'get_kk_by_nikk', nikk: nikk }, function(data) {
+      $.post('/dashboard/api/warga_action.php', { action: 'get_kk_by_nikk', nikk: nikk }, function(data) {
         // Data dari API sudah object, tidak perlu JSON.parse
         displayKK(data);
       }).fail(function(xhr, status, error) {
@@ -1150,7 +1150,7 @@ $user = $_SESSION['user'];
     function loadProvinsi() {
       return new Promise((resolve, reject) => {
         $('#propinsi').html('<option value="">Loading provinsi...</option>');
-        $.get('api/wilayah.php', { action: 'provinsi' }, function(data) {
+        $.get('/dashboard/api/wilayah.php', { action: 'provinsi' }, function(data) {
           let html = '<option value="">Pilih Provinsi</option>';
           data.forEach(item => {
             html += `<option value="${item.id}" data-name="${item.name}">${item.name}</option>`;
@@ -1177,7 +1177,7 @@ $user = $_SESSION['user'];
         }
         
         $('#kota').html('<option value="">Loading kota...</option>').prop('disabled', true);
-        $.get('api/wilayah.php', { action: 'kota', provinsi_id: provinsi_id }, function(data) {
+        $.get('/dashboard/api/wilayah.php', { action: 'kota', provinsi_id: provinsi_id }, function(data) {
           let html = '<option value="">Pilih Kota/Kabupaten</option>';
           data.forEach(item => {
             html += `<option value="${item.id}" data-name="${item.name}">${item.name}</option>`;
@@ -1205,7 +1205,7 @@ $user = $_SESSION['user'];
         }
         
         $('#kecamatan').html('<option value="">Loading kecamatan...</option>').prop('disabled', true);
-        $.get('api/wilayah.php', { action: 'kecamatan', kota_id: kota_id }, function(data) {
+        $.get('/dashboard/api/wilayah.php', { action: 'kecamatan', kota_id: kota_id }, function(data) {
           let html = '<option value="">Pilih Kecamatan</option>';
           data.forEach(item => {
             html += `<option value="${item.id}" data-name="${item.name}">${item.name}</option>`;
@@ -1231,7 +1231,7 @@ $user = $_SESSION['user'];
         }
         
         $('#kelurahan').html('<option value="">Loading kelurahan...</option>').prop('disabled', true);
-        $.get('api/wilayah.php', { action: 'kelurahan', kecamatan_id: kecamatan_id }, function(data) {
+        $.get('/dashboard/api/wilayah.php', { action: 'kelurahan', kecamatan_id: kecamatan_id }, function(data) {
           let html = '<option value="">Pilih Kelurahan</option>';
           data.forEach(item => {
             html += `<option value="${item.id}" data-name="${item.name}">${item.name}</option>`;
@@ -1442,7 +1442,7 @@ $user = $_SESSION['user'];
         $('#progressBar').css('width', '30%');
         $('#progressText').text('30% selesai');
         
-        $.post('dashboard/api/.php', { action: 'read' }, function(data) {
+        $.post('/dashboard/api/.php', { action: 'read' }, function(data) {
           $('#loadingText').text('Sedang memproses data...');
           $('#progressBar').css('width', '60%');
           $('#progressText').text('60% selesai');
@@ -1620,7 +1620,7 @@ $user = $_SESSION['user'];
             $('#progressText').text('60% selesai');
             
             // Kirim data ke server
-            $.post('dashboard/api/warga_action.php', { 
+            $.post('/dashboard/api/warga_action.php', { 
               action: 'import_excel', 
               data: JSON.stringify(validData) 
             }, function(response) {
@@ -1771,7 +1771,7 @@ $user = $_SESSION['user'];
         submitBtn.prop('disabled', true).text('Menyimpan...');
         
         $.ajax({
-          url: 'dashboard/api/warga_action.php',
+          url: '/dashboard/api/warga_action.php',
           type: 'POST',
           data: formData,
           processData: false,
@@ -2016,7 +2016,7 @@ $user = $_SESSION['user'];
           cancelButtonText: 'Batal'
         }).then((result) => {
           if (result.isConfirmed) {
-            $.post('dashboard/api/warga_action.php', { action: 'delete', id_warga: id }, function(res) {
+            $.post('/dashboard/api/warga_action.php', { action: 'delete', id_warga: id }, function(res) {
               // Handle response that's already parsed as object by jQuery
               let result;
               if (typeof res === 'object') {
