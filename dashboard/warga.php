@@ -51,7 +51,7 @@ $user = $_SESSION['user'];
       <h1 class="text-2xl md:text-3xl font-bold">
         <i class='bx bx-group'></i> Data Warga
       </h1>
-      <a href="index.php" class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded text-white shadow flex items-center gap-2" title="Kembali ke Dashboard">
+      <a href="index.php" class="bg-blue-600 hover:bg-blue-700 px-3 py-2 rounded-md text-white shadow flex items-center gap-2" title="Kembali ke Dashboard">
         <i class='bx bx-arrow-back text-xl'></i>
       </a>
     </div>
@@ -84,19 +84,19 @@ $user = $_SESSION['user'];
               </button>
               <!-- Action Buttons -->
               <div class="flex flex-wrap gap-2 items-center ml-2">
-                <button id="tambahBtn" class="bg-blue-600 text-white px-2 py-1 rounded hover:bg-blue-700" title="Tambah Warga">
+                <button id="tambahBtn" class="bg-blue-600 text-white px-3 py-2 rounded-md hover:bg-blue-700" title="Tambah Warga">
                   <i class='bx bx-plus text-xl'></i>
                 </button>
-                <button id="printBtn" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded" title="Print Data">
+                <button id="printBtn" class="bg-blue-500 hover:bg-blue-700 text-white font-bold px-3 py-2 rounded-md text-base" title="Print Data">
                   <i class='bx bx-printer'></i>
                 </button>
-                <button id="exportBtn" class="bg-green-500 hover:bg-green-700 text-white px-2 py-1 rounded text-sm ml-1" title="Export Excel">
+                <button id="exportBtn" class="bg-green-500 hover:bg-green-700 text-white px-3 py-2 rounded-md text-base ml-1" title="Export Excel">
                   <i class='bx bx-export'></i>
                 </button>
-                <button id="downloadTemplateBtn" class="bg-gray-500 hover:bg-gray-700 text-white px-2 py-1 rounded text-sm ml-1" title="Download Template">
+                <button id="downloadTemplateBtn" class="bg-gray-500 hover:bg-gray-700 text-white px-3 py-2 rounded-md text-base ml-1" title="Download Template">
                   <i class='bx bx-download'></i>
                 </button>
-                <label for="importInput" class="bg-yellow-500 hover:bg-yellow-700 text-white px-2 py-1 rounded text-sm ml-1 cursor-pointer" title="Import Excel">
+                <label for="importInput" class="bg-yellow-500 hover:bg-yellow-700 text-white px-3 py-2 rounded-md text-base ml-1 cursor-pointer" title="Import Excel">
                   <i class='bx bx-import'></i>
                   <input type="file" id="importInput" accept=".xlsx,.xls" class="hidden" />
                 </label>

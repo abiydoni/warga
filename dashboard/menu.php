@@ -33,12 +33,12 @@ $user = $_SESSION['user'];
       <h1 class="text-2xl md:text-3xl font-bold flex items-center gap-2">
         <i class='bx bx-menu'></i> Kelola Menu
       </h1>
-      <a href="index.php" class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded text-white shadow flex items-center gap-2" title="Kembali ke Dashboard">
+      <a href="index.php" class="bg-blue-600 hover:bg-blue-700 px-3 py-2 rounded-md text-white shadow flex items-center gap-2" title="Kembali ke Dashboard">
         <i class='bx bx-arrow-back text-xl'></i>
       </a>
     </div>
     <div class="mb-2 flex flex-wrap gap-2 items-center">
-      <button id="tambahMenuBtn" class="bg-blue-600 text-white px-2 py-1 rounded hover:bg-blue-700" title="Tambah Menu">
+      <button id="tambahMenuBtn" class="bg-blue-600 text-white px-3 py-2 rounded-md hover:bg-blue-700" title="Tambah Menu">
         <i class='bx bx-plus text-xl'></i>
       </button>
     </div>
