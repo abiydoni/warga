@@ -204,22 +204,23 @@ $user = $_SESSION['user'];
     $(document).on('submit', '#menuForm', function(e) {
       e.preventDefault();
       syncHiddenCheckbox(); // Pastikan nilai hidden sinkron
+      const $form = $(this);
       console.log(
-        's_admin checkbox:', $('.menu_s_admin').is(':checked'),
-        's_admin hidden:', $('.hidden_s_admin').val(),
-        'admin checkbox:', $('.menu_admin').is(':checked'),
-        'admin hidden:', $('.hidden_admin').val(),
-        'user checkbox:', $('.menu_user').is(':checked'),
-        'user hidden:', $('.hidden_user').val()
+        's_admin checkbox:', $form.find('.menu_s_admin').is(':checked'),
+        's_admin hidden:', $form.find('.hidden_s_admin').val(),
+        'admin checkbox:', $form.find('.menu_admin').is(':checked'),
+        'admin hidden:', $form.find('.hidden_admin').val(),
+        'user checkbox:', $form.find('.menu_user').is(':checked'),
+        'user hidden:', $form.find('.hidden_user').val()
       );
       const action = $('#menuFormAction').val() === 'edit' ? 'update' : 'create';
       const id = $('#menu_id').val();
       const nama = $('#menu_nama').val();
       const url_nama = $('#menu_url_nama').val();
       const ikon = $('#menu_ikon').val();
-      const s_admin = $('.hidden_s_admin').val();
-      const admin = $('.hidden_admin').val();
-      const user = $('.hidden_user').val();
+      const s_admin = $form.find('.hidden_s_admin').val();
+      const admin = $form.find('.hidden_admin').val();
+      const user = $form.find('.hidden_user').val();
       const data = { action, id, nama, url_nama, ikon, s_admin, admin, user };
       console.log('Data yang dikirim ke backend:', data);
       $.post('api/menu_action.php', data, function(res) {
