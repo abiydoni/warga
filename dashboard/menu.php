@@ -162,30 +162,6 @@ $user = $_SESSION['user'];
       $('#menu_user').prop('checked', $(this).data('user') == 1);
       $('#menuModal').removeClass('hidden').addClass('modal-show');
     });
-    // SweetAlert konfirmasi hapus (delegasi)
-    $(document).on('click', '.deleteMenuBtn', function() {
-      const id = $(this).data('id');
-      Swal.fire({
-        title: 'Yakin hapus menu ini?',
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#d33',
-        cancelButtonColor: '#3085d6',
-        confirmButtonText: 'Ya, hapus!',
-        cancelButtonText: 'Batal'
-      }).then((result) => {
-        if (result.isConfirmed) {
-          $.post('api/menu_action.php', { action: 'delete', id }, function(res) {
-            if (res.success) {
-              loadMenus();
-              Swal.fire('Terhapus!', 'Menu berhasil dihapus.', 'success');
-            } else {
-              Swal.fire('Gagal', res.message || 'Gagal menghapus menu', 'error');
-            }
-          }, 'json');
-        }
-      });
-    });
     // Submit form tambah/edit menu
     $('#menuForm').submit(function(e) {
       e.preventDefault();
@@ -202,11 +178,51 @@ $user = $_SESSION['user'];
         if (res.success) {
           $('#menuModal').removeClass('modal-show').addClass('hidden');
           loadMenus();
-          Swal.fire('Berhasil', 'Menu berhasil disimpan.', 'success');
+          Swal.fire({
+            toast: true,
+            position: 'top-end',
+            icon: 'success',
+            title: 'Menu berhasil disimpan.',
+            showConfirmButton: false,
+            timer: 2000,
+            timerProgressBar: true
+          });
         } else {
           Swal.fire('Gagal', res.message || 'Gagal menyimpan menu', 'error');
         }
       }, 'json');
+    });
+    // SweetAlert konfirmasi hapus (delegasi)
+    $(document).on('click', '.deleteMenuBtn', function() {
+      const id = $(this).data('id');
+      Swal.fire({
+        title: 'Yakin hapus menu ini?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Ya, hapus!',
+        cancelButtonText: 'Batal'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          $.post('api/menu_action.php', { action: 'delete', id }, function(res) {
+            if (res.success) {
+              loadMenus();
+              Swal.fire({
+                toast: true,
+                position: 'top-end',
+                icon: 'success',
+                title: 'Menu berhasil dihapus.',
+                showConfirmButton: false,
+                timer: 2000,
+                timerProgressBar: true
+              });
+            } else {
+              Swal.fire('Gagal', res.message || 'Gagal menghapus menu', 'error');
+            }
+          }, 'json');
+        }
+      });
     });
   });
   </script>
