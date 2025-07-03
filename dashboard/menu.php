@@ -200,7 +200,15 @@ $user = $_SESSION['user'];
     // Submit form tambah/edit menu (pakai event delegation agar selalu terpasang)
     $(document).on('submit', '#menuForm', function(e) {
       e.preventDefault();
-      console.log('Form submit event triggered');
+      syncHiddenCheckbox(); // Pastikan nilai hidden sinkron
+      console.log(
+        's_admin checkbox:', $('#menu_s_admin').is(':checked'),
+        's_admin hidden:', $('#hidden_s_admin').val(),
+        'admin checkbox:', $('#menu_admin').is(':checked'),
+        'admin hidden:', $('#hidden_admin').val(),
+        'user checkbox:', $('#menu_user').is(':checked'),
+        'user hidden:', $('#hidden_user').val()
+      );
       const action = $('#menuFormAction').val() === 'edit' ? 'update' : 'create';
       const id = $('#menu_id').val();
       const nama = $('#menu_nama').val();
