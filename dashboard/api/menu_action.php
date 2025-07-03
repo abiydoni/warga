@@ -39,6 +39,8 @@ if ($action === 'update') {
     $s_admin = isset($_POST['s_admin']) ? 1 : 0;
     $admin = isset($_POST['admin']) ? 1 : 0;
     $user = isset($_POST['user']) ? 1 : 0;
+    // Log debug POST data
+    file_put_contents(__DIR__ . '/../debug_menu.txt', date('Y-m-d H:i:s') . ' ' . json_encode($_POST) . PHP_EOL, FILE_APPEND);
     if (!$id || !$nama || !$url_nama) response(['success' => false, 'message' => 'Lengkapi data!']);
     $stmt = $pdo->prepare('UPDATE tb_menu SET nama=?, url_nama=?, ikon=?, s_admin=?, admin=?, user=? WHERE id=?');
     $ok = $stmt->execute([$nama, $url_nama, $ikon, $s_admin, $admin, $user, $id]);
