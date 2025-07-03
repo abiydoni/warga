@@ -177,11 +177,11 @@ $user = $_SESSION['user'];
       $('#menu_nama').val($(this).data('nama'));
       $('#menu_url_nama').val($(this).data('url_nama'));
       $('#menu_ikon').val($(this).data('ikon'));
-      $('#menu_s_admin').prop('checked', $(this).data('s_admin') == 1);
-      $('#menu_admin').prop('checked', $(this).data('admin') == 1);
-      $('#menu_user').prop('checked', $(this).data('user') == 1);
+      // Set checkbox sesuai data
+      $('.menu_s_admin').prop('checked', $(this).data('s_admin') == 1);
+      $('.menu_admin').prop('checked', $(this).data('admin') == 1);
+      $('.menu_user').prop('checked', $(this).data('user') == 1);
       $('#menuModal').removeClass('hidden').addClass('modal-show');
-      syncHiddenCheckbox();
     });
     // Submit form tambah/edit menu
     $(document).on('submit', '#menuForm', function(e) {
