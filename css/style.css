@@ -1,0 +1,47 @@
+/* DataTables Pagination & Controls Custom Style */
+.dataTables_wrapper .dataTables_paginate {
+  font-size: 12px;
+  margin-top: 8px;
+}
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+  padding: 2px 8px;
+  margin: 0 1px;
+  font-size: 12px;
+  border-radius: 4px;
+  border: 1px solid #d1d5db;
+  background: #f3f4f6;
+  color: #222;
+  min-width: 24px;
+}
+.dataTables_wrapper .dataTables_paginate .paginate_button.current {
+  background: #2563eb;
+  color: #fff !important;
+  border-color: #2563eb;
+}
+.dataTables_wrapper .dataTables_length label,
+.dataTables_wrapper .dataTables_filter label {
+  font-size: 12px;
+  margin-bottom: 0;
+}
+.dataTables_wrapper .dataTables_length select,
+.dataTables_wrapper .dataTables_filter input {
+  font-size: 12px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  border: 1px solid #d1d5db;
+  height: 28px;
+}
+@media (max-width: 600px) {
+  .dataTables_wrapper .dataTables_paginate {
+    font-size: 11px;
+  }
+  .dataTables_wrapper .dataTables_length label,
+  .dataTables_wrapper .dataTables_filter label {
+    font-size: 11px;
+  }
+  .dataTables_wrapper .dataTables_length select,
+  .dataTables_wrapper .dataTables_filter input {
+    font-size: 11px;
+    height: 24px;
+  }
+}
