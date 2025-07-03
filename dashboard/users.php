@@ -170,6 +170,9 @@ $user = $_SESSION['user'];
               </tr>`;
             });
             $('#userDataBody').html(html);
+            if (typeof initDataTable === 'function') {
+              initDataTable();
+            }
           } else {
             $('#userDataBody').html('<tr><td colspan="8" class="text-center text-gray-500">Tidak ada data user.</td></tr>');
           }

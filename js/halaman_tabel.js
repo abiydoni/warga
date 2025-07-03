@@ -1,5 +1,7 @@
-$(document).ready(function () {
-  // Table initialize
+function initDataTable() {
+  if ($.fn.DataTable.isDataTable("#example")) {
+    $("#example").DataTable().destroy();
+  }
   var table = new DataTable("#example", {
     pageLength: 10, // Set the default number of records per page to 10
     lengthMenu: [10, 25, 50, 100], // Options for the dropdown
@@ -15,7 +17,6 @@ $(document).ready(function () {
         targets: 1, // Second column (index starting from 0)
         className: "text-left",
       },
-
       {
         targets: "_all", // Terapkan ke semua kolom
         className: "custom-row-height", // Tambahkan kelas CSS ke setiap sel
@@ -50,4 +51,4 @@ $(document).ready(function () {
     $("#search-input").val(""); // Mengosongkan nilai input pencarian
     table.search("").draw(); // Mereset pencarian pada tabel
   });
-});
+}
