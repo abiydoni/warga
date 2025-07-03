@@ -87,7 +87,7 @@ $menus = $_SESSION['menus'] ?? [];
         }
       }).then((result) => {
         if (result.isConfirmed) {
-          window.location.href = '../logout.php';
+          window.location.href = '../logout';
         }
       });
     }

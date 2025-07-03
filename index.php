@@ -107,7 +107,7 @@
           const username = result.value.username;
           const password = result.value.password;
 
-          fetch('cek_login.php', {
+          fetch('cek_login', {
             method: 'POST',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
             body: new URLSearchParams({

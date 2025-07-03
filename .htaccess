@@ -1,0 +1,13 @@
+# Menyembunyikan ekstensi .php pada URL
+RewriteEngine On
+
+# Redirect permintaan tanpa ekstensi ke file .php
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^([^\.]+)$ $1.php [L]
+
+# Blokir akses langsung ke semua file .php kecuali index.php
+<FilesMatch "^(?!index)\w+\.php$">
+  Order Deny,Allow
+  Deny from all
+</FilesMatch> 
