@@ -31,6 +31,12 @@ $totalPages = max(1, ceil($total/$limit));
 <body>
 <div class="table-responsive">
   <div class="table-controls">
+    <div style="flex:1;min-width:180px;">
+      <span style="font-size:13px; color:#555;">
+        Menampilkan <?=count($users)?> dari <?=$total?> data user
+        <?php if($total>0): ?> (Halaman <?=$page?>/<?=$totalPages?>)<?php endif; ?>
+      </span>
+    </div>
     <form method="get" style="display:inline-block;">
       <input type="search" name="search" value="<?= htmlspecialchars($search) ?>" placeholder="Cari user...">
       <button type="submit">Cari</button>

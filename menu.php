@@ -61,9 +61,9 @@ $totalPages = max(1, ceil($total/$limit));
         <td><?= htmlspecialchars($m['nama']) ?></td>
         <td><?= htmlspecialchars($m['url_nama']) ?></td>
         <td><i class="bx <?= htmlspecialchars($m['ikon']) ?> text-lg"></i> <span class="text-xs text-gray-500"><?= htmlspecialchars($m['ikon']) ?></span></td>
-        <td style="text-align:center;"><?= $m['s_admin'] ? '✔️' : '' ?></td>
-        <td style="text-align:center;"><?= $m['admin'] ? '✔️' : '' ?></td>
-        <td style="text-align:center;"><?= $m['user'] ? '✔️' : '' ?></td>
+        <td style="text-align:center;"> <?= $m['s_admin'] ? '✔️' : '' ?> </td>
+        <td style="text-align:center;"> <?= $m['admin'] ? '✔️' : '' ?> </td>
+        <td style="text-align:center;"> <?= $m['user'] ? '✔️' : '' ?> </td>
       </tr>
       <?php endforeach; ?>
       <?php if(!$menus): ?><tr><td colspan="6" style="text-align:center;">Tidak ada data.</td></tr><?php endif; ?>
