@@ -29,16 +29,19 @@ $totalPages = max(1, ceil($total/$limit));
   <link rel="stylesheet" href="css/table-style.css">
   <style>
     .table-header-flex { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; margin-bottom: 10px; gap: 8px; }
-    .table-header-flex .info { font-size: 13px; color: #555; }
-    .table-header-flex .controls { display: flex; gap: 8px; align-items: center; }
+    .table-header-flex .info { font-size: 13px; color: #555; min-width: 160px; }
+    .table-header-flex .controls { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+    .table-header-flex select, .table-header-flex input[type='search'] { max-width: 120px; min-width: 60px; }
+    .table-header-flex input[type='search'] { width: 140px; }
     @media (max-width: 600px) {
       .table-header-flex { flex-direction: column; align-items: stretch; gap: 6px; }
       .table-header-flex .controls { flex-direction: column; gap: 6px; align-items: stretch; }
+      .table-header-flex input[type='search'] { width: 100%; max-width: 100%; }
     }
   </style>
 </head>
 <body>
-<div class="table-responsive">
+<div class="table-responsive" style="overflow-x:auto;">
   <div class="table-header-flex">
     <div class="info">
       Menampilkan <?=count($users)?> dari <?=$total?> data user<?php if($total>0): ?> (Halaman <?=$page?>/<?=$totalPages?>)<?php endif; ?>
@@ -52,7 +55,7 @@ $totalPages = max(1, ceil($total/$limit));
         </select>
         baris
       </label>
-      <input type="search" name="search" value="<?= htmlspecialchars($search) ?>" placeholder="Cari user..." style="margin-left:8px;">
+      <input type="search" name="search" value="<?= htmlspecialchars($search) ?>" placeholder="Cari user...">
       <button type="submit">Cari</button>
     </form>
   </div>
