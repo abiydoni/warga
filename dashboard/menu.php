@@ -84,18 +84,15 @@ $user = $_SESSION['user'];
           </div>
           <div class="mb-2 flex gap-2">
             <label class="flex items-center gap-1">
-              <input type="checkbox" class="menu_s_admin accent-blue-500">
-              <input type="hidden" name="s_admin" class="hidden_s_admin" value="0">
+              <input type="checkbox" name="s_admin" class="menu_s_admin accent-blue-500" value="1">
               Super Admin
             </label>
             <label class="flex items-center gap-1">
-              <input type="checkbox" class="menu_admin accent-blue-500">
-              <input type="hidden" name="admin" class="hidden_admin" value="0">
+              <input type="checkbox" name="admin" class="menu_admin accent-blue-500" value="1">
               Admin
             </label>
             <label class="flex items-center gap-1">
-              <input type="checkbox" class="menu_user accent-blue-500">
-              <input type="hidden" name="user" class="hidden_user" value="0">
+              <input type="checkbox" name="user" class="menu_user accent-blue-500" value="1">
               User
             </label>
           </div>
@@ -152,20 +149,6 @@ $user = $_SESSION['user'];
     }
     loadMenus();
 
-    // Sinkronisasi checkbox dan input hidden (pakai event delegation, selector relatif, pakai class)
-    $(document).on('change', '.menu_s_admin', function() {
-      $(this).closest('label').find('.hidden_s_admin').val(this.checked ? 1 : 0);
-      console.log('Checkbox s_admin berubah:', this.checked, 'hidden_s_admin:', $(this).closest('label').find('.hidden_s_admin').val());
-    });
-    $(document).on('change', '.menu_admin', function() {
-      $(this).closest('label').find('.hidden_admin').val(this.checked ? 1 : 0);
-      console.log('Checkbox admin berubah:', this.checked, 'hidden_admin:', $(this).closest('label').find('.hidden_admin').val());
-    });
-    $(document).on('change', '.menu_user', function() {
-      $(this).closest('label').find('.hidden_user').val(this.checked ? 1 : 0);
-      console.log('Checkbox user berubah:', this.checked, 'hidden_user:', $(this).closest('label').find('.hidden_user').val());
-    });
-
     // Saat buka modal edit/tambah, set hidden sesuai checkbox
     function syncHiddenCheckbox() {
       $('.hidden_s_admin').val($('.menu_s_admin').is(':checked') ? 1 : 0);
@@ -203,24 +186,15 @@ $user = $_SESSION['user'];
     // Submit form tambah/edit menu
     $(document).on('submit', '#menuForm', function(e) {
       e.preventDefault();
-      syncHiddenCheckbox(); // Pastikan nilai hidden sinkron
       const $form = $(this);
-      console.log(
-        's_admin checkbox:', $form.find('.menu_s_admin').is(':checked'),
-        's_admin hidden:', $form.find('.hidden_s_admin').val(),
-        'admin checkbox:', $form.find('.menu_admin').is(':checked'),
-        'admin hidden:', $form.find('.hidden_admin').val(),
-        'user checkbox:', $form.find('.menu_user').is(':checked'),
-        'user hidden:', $form.find('.hidden_user').val()
-      );
       const action = $('#menuFormAction').val() === 'edit' ? 'update' : 'create';
       const id = $('#menu_id').val();
       const nama = $('#menu_nama').val();
       const url_nama = $('#menu_url_nama').val();
       const ikon = $('#menu_ikon').val();
-      const s_admin = $form.find('.hidden_s_admin').val();
-      const admin = $form.find('.hidden_admin').val();
-      const user = $form.find('.hidden_user').val();
+      const s_admin = $form.find('.menu_s_admin').is(':checked') ? 1 : 0;
+      const admin = $form.find('.menu_admin').is(':checked') ? 1 : 0;
+      const user = $form.find('.menu_user').is(':checked') ? 1 : 0;
       const data = { action, id, nama, url_nama, ikon, s_admin, admin, user };
       console.log('Data yang dikirim ke backend:', data);
       $.post('api/menu_action.php', data, function(res) {
