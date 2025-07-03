@@ -160,27 +160,25 @@ $user = $_SESSION['user'];
       $('#menuModalTitle').text('Tambah Menu');
       $('#menuFormAction').val('create');
       $('#menuForm')[0].reset();
-      $('#menuModal').removeClass('hidden').addClass('modal-show');
       $('#menu_id').val('');
-      syncHiddenCheckbox();
+      $('#menuModal').removeClass('hidden').addClass('modal-show');
     });
     // Tutup modal
     $('#cancelMenuBtn').click(function() {
       $('#menuModal').removeClass('modal-show').addClass('hidden');
     });
-    // Tampilkan modal edit menu (delegasi karena tombol dinamis)
+    // Edit menu
     $(document).on('click', '.editMenuBtn', function() {
       $('#menuForm')[0].reset();
       $('#menuModalTitle').text('Edit Menu');
-      $('#menuFormAction').val('edit');
+      $('#menuFormAction').val('update');
       $('#menu_id').val($(this).data('id'));
       $('#menu_nama').val($(this).data('nama'));
       $('#menu_url_nama').val($(this).data('url_nama'));
       $('#menu_ikon').val($(this).data('ikon'));
-      // Set input number sesuai data
-      $('.input_s_admin').val($(this).data('s_admin'));
-      $('.input_admin').val($(this).data('admin'));
-      $('.input_user').val($(this).data('user'));
+      $('.menu_s_admin').prop('checked', $(this).data('s_admin') == 1);
+      $('.menu_admin').prop('checked', $(this).data('admin') == 1);
+      $('.menu_user').prop('checked', $(this).data('user') == 1);
       $('#menuModal').removeClass('hidden').addClass('modal-show');
     });
     // SweetAlert konfirmasi hapus (delegasi)
