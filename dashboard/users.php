@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (!isset($_SESSION['user'])) {
-    header('Location: ../');
+    header('Location: ../index.php');
     exit;
 }
 $user = $_SESSION['user'];
@@ -151,7 +151,7 @@ $user = $_SESSION['user'];
       // Load data user
       function loadUsers() {
         $('#userDataBody').html('<tr><td colspan="8" class="text-center text-gray-500">Loading...</td></tr>');
-        $.post('dashboard/api/users_action.php', { action: 'read' }, function(res) {
+        $.post('api/users_action.php', { action: 'read' }, function(res) {
           if (res.success && res.data.length) {
             let html = '';
             res.data.forEach((u, i) => {
@@ -225,7 +225,7 @@ $user = $_SESSION['user'];
         if (action === 'update') data.old_username = $('#userForm').data('old_username');
         if (action === 'create' || action === 'update') {
           if (action === 'update' && password) data.password = password;
-          $.post('dashboard/api/users_action.php', data, function(res) {
+          $.post('api/users_action.php', data, function(res) {
             if (res.success) {
               Swal.fire({
                 title: 'Berhasil',
@@ -285,7 +285,7 @@ $user = $_SESSION['user'];
           cancelButtonText: 'Batal'
         }).then((result) => {
           if (result.isConfirmed) {
-            $.post('dashboard/api/users_action.php', { action: 'delete', username }, function(res) {
+            $.post('api/users_action.php', { action: 'delete', username }, function(res) {
               if (res.success) {
                 Swal.fire({
                   title: 'Berhasil',
@@ -341,7 +341,7 @@ $user = $_SESSION['user'];
           });
           return;
         }
-        $.post('dashboard/api/users_action.php', { action: 'change_password', username, password }, function(res) {
+        $.post('api/users_action.php', { action: 'change_password', username, password }, function(res) {
           if (res.success) {
             Swal.fire({
               title: 'Berhasil',

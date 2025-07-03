@@ -36,7 +36,7 @@ $user = $_SESSION['user'];
       <h1 class="text-2xl md:text-3xl font-bold flex items-center gap-2">
         <i class='bx bx-menu'></i> Kelola Menu
       </h1>
-      <a href="/dashboard/" class="bg-blue-600 hover:bg-blue-700 px-3 py-2 rounded-md text-white shadow flex items-center gap-2" title="Kembali ke Dashboard">
+      <a href="index.php" class="bg-blue-600 hover:bg-blue-700 px-3 py-2 rounded-md text-white shadow flex items-center gap-2" title="Kembali ke Dashboard">
         <i class='bx bx-arrow-back text-xl'></i>
       </a>
     </div>
@@ -116,7 +116,7 @@ $user = $_SESSION['user'];
     // Load data menu
     function loadMenus() {
       $('#menuDataBody').html('<tr><td colspan="8" class="text-center text-gray-500">Loading...</td></tr>');
-      $.post('dashboard/api/menu_action.php', { action: 'read' }, function(res) {
+      $.post('api/menu_action.php', { action: 'read' }, function(res) {
         if (res.success && res.data.length) {
           let html = '';
           res.data.forEach((m, i) => {
@@ -201,7 +201,7 @@ $user = $_SESSION['user'];
         cancelButtonText: 'Batal'
       }).then((result) => {
         if (result.isConfirmed) {
-          $.post('dashboard/api/menu_action.php', { action: 'delete', id }, function(res) {
+          $.post('api/menu_action.php', { action: 'delete', id }, function(res) {
             if (res.success) {
               loadMenus();
               Swal.fire({

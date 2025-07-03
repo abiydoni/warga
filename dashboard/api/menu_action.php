@@ -28,7 +28,7 @@ if ($action === 'create') {
     if (!$nama || !$url_nama) response(['success' => false, 'message' => 'Lengkapi data!']);
     $stmt = $pdo->prepare('INSERT INTO tb_menu (nama, url_nama, ikon, s_admin, admin, user) VALUES (?, ?, ?, ?, ?, ?)');
     $ok = $stmt->execute([$nama, $url_nama, $ikon, $s_admin, $admin, $user]);
-    header('Location: ../menu?success=1');
+    header('Location: ../menu.php?success=1');
     exit;
 }
 
@@ -45,7 +45,7 @@ if ($action === 'update') {
     if (!$id || !$nama || !$url_nama) response(['success' => false, 'message' => 'Lengkapi data!']);
     $stmt = $pdo->prepare('UPDATE tb_menu SET nama=?, url_nama=?, ikon=?, s_admin=?, admin=?, user=? WHERE id=?');
     $ok = $stmt->execute([$nama, $url_nama, $ikon, $s_admin, $admin, $user, $id]);
-    header('Location: ../menu?success=1');
+    header('Location: ../menu.php?success=1');
     exit;
 }
 
