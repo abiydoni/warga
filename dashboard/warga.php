@@ -51,8 +51,8 @@ $user = $_SESSION['user'];
       <h1 class="text-2xl md:text-3xl font-bold">
         <i class='bx bx-group'></i> Data Warga
       </h1>
-      <a href="index.php" class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded text-white shadow flex items-center gap-2">
-        <i class='bx bx-arrow-back'></i> Kembali ke Dashboard
+      <a href="index.php" class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded text-white shadow flex items-center gap-2" title="Kembali ke Dashboard">
+        <i class='bx bx-arrow-back text-xl'></i>
       </a>
     </div>
     <!-- Mulai konten utama -->
@@ -85,7 +85,7 @@ $user = $_SESSION['user'];
               <!-- Action Buttons -->
               <div class="flex flex-wrap gap-2 items-center ml-2">
                 <button id="tambahBtn" class="bg-blue-600 text-white px-2 py-1 rounded hover:bg-blue-700" title="Tambah Warga">
-                  <i class='bx bx-plus'></i>
+                  <i class='bx bx-plus text-xl'></i>
                 </button>
                 <button id="printBtn" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded" title="Print Data">
                   <i class='bx bx-printer'></i>

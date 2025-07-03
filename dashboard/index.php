@@ -46,8 +46,8 @@ $menus = $_SESSION['menus'] ?? [];
       <h1 class="text-2xl md:text-3xl font-bold">
         👋 Selamat datang, <?= htmlspecialchars($user['name']) ?>!
       </h1>
-      <button onclick="logout()" class="bg-red-600 hover:bg-red-700 px-4 py-2 rounded text-white shadow">
-        <i class='bx bx-log-out'></i> Logout
+      <button onclick="logout()" class="bg-red-600 hover:bg-red-700 px-4 py-2 rounded text-white shadow" title="Logout">
+        <i class='bx bx-log-out text-xl'></i>
       </button>
     </div>
 
