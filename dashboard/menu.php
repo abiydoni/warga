@@ -95,6 +95,9 @@ $user = $_SESSION['user'];
       </div>
     </div>
   </div>
+  <footer class="text-center text-xs text-gray-500 mt-8 mb-2">
+    &copy; 2025 Sistem Data Warga by Abiy Doni
+  </footer>
   <script>
   $(document).ready(function() {
     // Load data menu
