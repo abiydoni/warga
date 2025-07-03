@@ -1442,7 +1442,7 @@ $user = $_SESSION['user'];
         $('#progressBar').css('width', '30%');
         $('#progressText').text('30% selesai');
         
-        $.post('/dashboard/api/.php', { action: 'read' }, function(data) {
+        $.post('/dashboard/api/warga_action.php', { action: 'read' }, function(data) {
           $('#loadingText').text('Sedang memproses data...');
           $('#progressBar').css('width', '60%');
           $('#progressText').text('60% selesai');
