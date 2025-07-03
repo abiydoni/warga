@@ -6,7 +6,7 @@ function initDataTable() {
     pageLength: 10, // Set the default number of records per page to 10
     lengthMenu: [10, 25, 50, 100], // Options for the dropdown
     searching: true, // Enable searching
-    order: [[2, "desc"]], // Sort by the second column (index 1), ascending order
+    order: [[1, "asc"]], // Sort by the second column (index 1), ascending order
     stateSave: true, // Simpan state (jumlah entry, halaman, search) setelah reload
     columnDefs: [
       {
