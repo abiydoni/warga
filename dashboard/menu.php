@@ -43,7 +43,7 @@ $user = $_SESSION['user'];
       </button>
     </div>
     <div id="table-container" class="overflow-x-auto">
-      <table class="min-w-full w-full border-collapse border border-gray-200 shadow-lg rounded-lg overflow-hidden text-xs bg-white text-black" style="width:100%">
+      <table id="example" class="min-w-full w-full border-collapse border border-gray-200 shadow-lg rounded-lg overflow-hidden text-xs bg-white text-black" style="width:100%">
         <thead class="bg-gray-200 text-black">
           <tr>
             <th class="py-2 px-3 w-10 border">No</th>
@@ -57,7 +57,7 @@ $user = $_SESSION['user'];
           </tr>
         </thead>
         <tbody id="menuDataBody">
-            <tr><td colspan="6" class="text-center text-gray-500">Loading...</td></tr>
+            <tr><td colspan="8" class="text-center text-gray-500">Loading...</td></tr>
         </tbody>
       </table>
     </div>
@@ -107,6 +107,7 @@ $user = $_SESSION['user'];
   <footer class="fixed bottom-2 right-4 text-xs text-gray-300 bg-black/30 px-3 py-1 rounded-lg backdrop-blur-md">
     &copy; 2025 Sistem Data Warga by Abiy Doni
   </footer>
+  <script src="../js/halaman_tabel.js"></script>
   <script>
   $(document).ready(function() {
     // Load data menu
@@ -142,6 +143,9 @@ $user = $_SESSION['user'];
             </tr>`;
           });
           $('#menuDataBody').html(html);
+          if (typeof initDataTable === 'function') {
+            initDataTable();
+          }
         } else {
           $('#menuDataBody').html('<tr><td colspan="8" class="text-center text-gray-500">Tidak ada data menu.</td></tr>');
         }
