@@ -83,9 +83,21 @@ $user = $_SESSION['user'];
             <input type="text" name="ikon" id="menu_ikon" class="w-full border px-2 py-0.5 rounded text-sm form-input">
           </div>
           <div class="mb-2 flex gap-2">
-            <label class="flex items-center gap-1"><input type="checkbox" name="s_admin" id="menu_s_admin" class="accent-blue-500"> Super Admin</label>
-            <label class="flex items-center gap-1"><input type="checkbox" name="admin" id="menu_admin" class="accent-blue-500"> Admin</label>
-            <label class="flex items-center gap-1"><input type="checkbox" name="user" id="menu_user" class="accent-blue-500"> User</label>
+            <label class="flex items-center gap-1">
+              <input type="checkbox" id="menu_s_admin" class="accent-blue-500">
+              <input type="hidden" name="s_admin" id="hidden_s_admin" value="0">
+              Super Admin
+            </label>
+            <label class="flex items-center gap-1">
+              <input type="checkbox" id="menu_admin" class="accent-blue-500">
+              <input type="hidden" name="admin" id="hidden_admin" value="0">
+              Admin
+            </label>
+            <label class="flex items-center gap-1">
+              <input type="checkbox" id="menu_user" class="accent-blue-500">
+              <input type="hidden" name="user" id="hidden_user" value="0">
+              User
+            </label>
           </div>
           <div class="flex justify-end gap-2 mt-4 pt-4 border-t">
             <button type="button" id="cancelMenuBtn" class="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600">Batal</button>
@@ -140,13 +152,31 @@ $user = $_SESSION['user'];
     }
     loadMenus();
 
-    // Tampilkan modal tambah menu
+    // Sinkronisasi checkbox dan input hidden
+    $('#menu_s_admin').on('change', function() {
+      $('#hidden_s_admin').val(this.checked ? 1 : 0);
+    });
+    $('#menu_admin').on('change', function() {
+      $('#hidden_admin').val(this.checked ? 1 : 0);
+    });
+    $('#menu_user').on('change', function() {
+      $('#hidden_user').val(this.checked ? 1 : 0);
+    });
+
+    // Saat buka modal edit/tambah, set hidden sesuai checkbox
+    function syncHiddenCheckbox() {
+      $('#hidden_s_admin').val($('#menu_s_admin').is(':checked') ? 1 : 0);
+      $('#hidden_admin').val($('#menu_admin').is(':checked') ? 1 : 0);
+      $('#hidden_user').val($('#menu_user').is(':checked') ? 1 : 0);
+    }
+    // Tambah menu
     $('#tambahMenuBtn').click(function() {
       $('#menuModalTitle').text('Tambah Menu');
       $('#menuFormAction').val('create');
       $('#menuForm')[0].reset();
       $('#menuModal').removeClass('hidden').addClass('modal-show');
       $('#menu_id').val('');
+      syncHiddenCheckbox();
     });
     // Tutup modal
     $('#cancelMenuBtn').click(function() {
@@ -165,6 +195,7 @@ $user = $_SESSION['user'];
       $('#menu_admin').prop('checked', $(this).data('admin') == 1);
       $('#menu_user').prop('checked', $(this).data('user') == 1);
       $('#menuModal').removeClass('hidden').addClass('modal-show');
+      syncHiddenCheckbox();
     });
     // Submit form tambah/edit menu (pakai event delegation agar selalu terpasang)
     $(document).on('submit', '#menuForm', function(e) {
@@ -175,9 +206,9 @@ $user = $_SESSION['user'];
       const nama = $('#menu_nama').val();
       const url_nama = $('#menu_url_nama').val();
       const ikon = $('#menu_ikon').val();
-      const s_admin = $('#menu_s_admin').is(':checked') ? 1 : 0;
-      const admin = $('#menu_admin').is(':checked') ? 1 : 0;
-      const user = $('#menu_user').is(':checked') ? 1 : 0;
+      const s_admin = $('#hidden_s_admin').val();
+      const admin = $('#hidden_admin').val();
+      const user = $('#hidden_user').val();
       const data = { action, id, nama, url_nama, ikon, s_admin, admin, user };
       console.log('Data yang dikirim ke backend:', data);
       $.post('api/menu_action.php', data, function(res) {
