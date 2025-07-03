@@ -46,12 +46,12 @@
   }
 }
 
-/* Merapatkan baris semua tabel DataTables */
+/* Merapatkan baris semua tabel DataTables (lebih rapat & font kecil) */
 table.dataTable tbody td,
 table.dataTable thead th {
-  padding-top: 4px;
-  padding-bottom: 4px;
-  padding-left: 8px;
-  padding-right: 8px;
-  font-size: 14px;
+  padding-top: 1px;
+  padding-bottom: 1px;
+  padding-left: 4px;
+  padding-right: 4px;
+  font-size: 11px;
 }
