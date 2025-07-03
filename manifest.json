@@ -1,6 +1,6 @@
 {
-  "name": "Warga",
-  "short_name": "Warga",
+  "name": "OlahWarga",
+  "short_name": "OlahWarga",
   "description": "Pengelolaan Data Warga",
   "start_url": ".",
   "display": "standalone",

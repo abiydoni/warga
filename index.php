@@ -14,6 +14,7 @@
 
   <!-- SweetAlert2 -->
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <link rel="manifest" href="manifest.json" />
 
   <style>
     body {
