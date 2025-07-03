@@ -5,7 +5,7 @@ header('Content-Type: application/json');
 
 $username = $_POST['username'] ?? '';
 $password = $_POST['password'] ?? '';
-$redirect = $_POST['redirect_option'] ?? 'dashboard';
+$redirect = $_POST['redirect_option'] ?? '/dashboard';
 
 try {
     $stmt = $pdo->prepare("SELECT * FROM tb_user WHERE username = ?");
