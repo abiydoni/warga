@@ -57,7 +57,7 @@ $user = $_SESSION['user'];
           </tr>
         </thead>
         <tbody id="menuDataBody">
-          <!-- Data menu akan di-load via AJAX -->
+            <tr><td colspan="6" class="text-center text-gray-500">Loading...</td></tr>
         </tbody>
       </table>
     </div>
@@ -112,7 +112,7 @@ $user = $_SESSION['user'];
               <td class="py-1 px-2 border text-center">${m.s_admin == 1 ? '<i class=\'bx bx-check text-green-600\'></i>' : ''}</td>
               <td class="py-1 px-2 border text-center">${m.admin == 1 ? '<i class=\'bx bx-check text-green-600\'></i>' : ''}</td>
               <td class="py-1 px-2 border text-center border-r-0">${m.user == 1 ? '<i class=\'bx bx-check text-green-600\'></i>' : ''}</td>
-              <td class="py-1 px-2 text-center flex gap-1 justify-center border-l border-gray-200">\
+              <td class="py-1 px-2 border text-center">
                 <button class=\"editMenuBtn text-blue-600 hover:text-blue-800 font-bold py-1 px-1\"
                   data-id=\"${m.id}\"
                   data-nama=\"${$('<div>').text(m.nama).html()}\"
