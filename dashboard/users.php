@@ -18,6 +18,8 @@ $user = $_SESSION['user'];
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
   <link rel="stylesheet" href="../css/modal-fix.css">
+  <link rel="stylesheet" href="../css/style.css">
+
   <style>
     .main-content { position: relative; z-index: 1; }
     .blur-sm { filter: blur(4px); transition: filter 0.2s; }
@@ -29,8 +31,8 @@ $user = $_SESSION['user'];
     }
   </style>
 </head>
-<body class="bg-hero min-h-screen text-black font-sans antialiased">
-  <div class="main-content min-h-screen p-6">
+<body class="table-data bg-hero min-h-screen text-black font-sans antialiased">
+  <div class="order main-content min-h-screen p-6">
     <div class="flex justify-between items-center mb-8">
       <h1 class="text-2xl md:text-3xl font-bold">
         <i class='bx bx-user'></i> Kelola User
