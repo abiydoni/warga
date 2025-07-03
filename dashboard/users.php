@@ -37,7 +37,7 @@ $user = $_SESSION['user'];
       <h1 class="text-2xl md:text-3xl font-bold">
         <i class='bx bx-user'></i> Kelola User
       </h1>
-      <a href="/" class="bg-blue-600 hover:bg-blue-700 px-3 py-2 rounded-md text-white shadow flex items-center gap-2" title="Kembali ke Dashboard">
+      <a href="/dashboard/" class="bg-blue-600 hover:bg-blue-700 px-3 py-2 rounded-md text-white shadow flex items-center gap-2" title="Kembali ke Dashboard">
         <i class='bx bx-arrow-back text-xl'></i>
       </a>
     </div>
