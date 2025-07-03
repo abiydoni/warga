@@ -85,17 +85,17 @@ $user = $_SESSION['user'];
           <div class="mb-2 flex gap-2">
             <label class="flex items-center gap-1">
               <input type="checkbox" id="menu_s_admin" class="accent-blue-500">
-              <input type="number" name="s_admin" id="hidden_s_admin" value="0">
+              <input type="hidden" name="s_admin" id="hidden_s_admin" value="0">
               Super Admin
             </label>
             <label class="flex items-center gap-1">
               <input type="checkbox" id="menu_admin" class="accent-blue-500">
-              <input type="number" name="admin" id="hidden_admin" value="0">
+              <input type="hidden" name="admin" id="hidden_admin" value="0">
               Admin
             </label>
             <label class="flex items-center gap-1">
               <input type="checkbox" id="menu_user" class="accent-blue-500">
-              <input type="number" name="user" id="hidden_user" value="0">
+              <input type="hidden" name="user" id="hidden_user" value="0">
               User
             </label>
           </div>
