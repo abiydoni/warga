@@ -45,3 +45,13 @@
     height: 24px;
   }
 }
+
+/* Merapatkan baris semua tabel DataTables */
+table.dataTable tbody td,
+table.dataTable thead th {
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 8px;
+  padding-right: 8px;
+  font-size: 14px;
+}
