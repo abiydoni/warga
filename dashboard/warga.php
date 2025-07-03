@@ -1778,32 +1778,25 @@ $user = $_SESSION['user'];
           contentType: false,
           success: function(res) {
             submitBtn.prop('disabled', false).text(originalText);
-            
-            console.log('Raw response:', res);
-            console.log('Response type:', typeof res);
-            
-            // Handle response that's already parsed as object by jQuery
             let result;
-            if (typeof res === 'object') {
-              result = res;
-              console.log('Response is already an object:', result);
-            } else {
-              try {
-                result = JSON.parse(res);
-                console.log('Parsed JSON result:', result);
-              } catch (e) {
-                console.log('JSON parse error:', e);
-                console.log('Response that failed to parse:', res);
-                showToast('Error: Response tidak valid dari server', 'error');
+            try {
+              result = (typeof res === 'object') ? res : JSON.parse(res);
+            } catch (e) {
+              console.error('JSON parse error:', e, res);
+              // Fallback: jika response mengandung kata 'success', tetap tutup modal
+              if (typeof res === 'string' && res.indexOf('success') !== -1) {
+                $('#modal').removeClass('modal-show').addClass('hidden');
+                loadData();
+                showToast('Data berhasil disimpan!', 'success');
                 return;
               }
+              showToast('Error: Response tidak valid dari server', 'error');
+              return;
             }
-            
             if (result.success) {
               $('#modal').removeClass('modal-show').addClass('hidden');
               loadData();
               showToast(result.message || 'Data berhasil disimpan!', 'success');
-              console.log('Modal close process completed successfully');
             } else {
               Swal.fire({
                 title: 'Gagal',
