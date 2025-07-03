@@ -30,10 +30,10 @@ $totalPages = max(1, ceil($total/$limit));
   <style>
     .table-header-flex { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; margin-bottom: 10px; gap: 8px; }
     .table-header-flex .info { font-size: 13px; color: #555; }
-    .table-header-flex .controls { display: flex; gap: 8px; }
+    .table-header-flex .controls { display: flex; gap: 8px; align-items: center; }
     @media (max-width: 600px) {
       .table-header-flex { flex-direction: column; align-items: stretch; gap: 6px; }
-      .table-header-flex .controls { flex-direction: column; gap: 6px; }
+      .table-header-flex .controls { flex-direction: column; gap: 6px; align-items: stretch; }
     }
   </style>
 </head>
@@ -43,21 +43,18 @@ $totalPages = max(1, ceil($total/$limit));
     <div class="info">
       Menampilkan <?=count($users)?> dari <?=$total?> data user<?php if($total>0): ?> (Halaman <?=$page?>/<?=$totalPages?>)<?php endif; ?>
     </div>
-    <div class="controls">
-      <form method="get" style="display:inline-block;">
-        <input type="search" name="search" value="<?= htmlspecialchars($search) ?>" placeholder="Cari user...">
-        <input type="hidden" name="limit" value="<?= $limit ?>">
-        <button type="submit">Cari</button>
-      </form>
-      <form method="get" style="display:inline-block;">
-        <input type="hidden" name="search" value="<?= htmlspecialchars($search) ?>">
-        <select name="limit" onchange="this.form.submit()">
+    <form method="get" class="controls">
+      <label style="font-size:13px; color:#555;">Tampilkan
+        <select name="limit" onchange="this.form.submit()" style="margin:0 4px;">
           <?php foreach ([10,25,50,100] as $opt): ?>
-          <option value="<?= $opt ?>" <?= $limit==$opt?'selected':'' ?>><?= $opt ?> baris</option>
+          <option value="<?= $opt ?>" <?= $limit==$opt?'selected':'' ?>><?= $opt ?></option>
           <?php endforeach; ?>
         </select>
-      </form>
-    </div>
+        baris
+      </label>
+      <input type="search" name="search" value="<?= htmlspecialchars($search) ?>" placeholder="Cari user..." style="margin-left:8px;">
+      <button type="submit">Cari</button>
+    </form>
   </div>
   <table class="custom-table">
     <thead>
