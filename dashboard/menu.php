@@ -152,18 +152,18 @@ $user = $_SESSION['user'];
     }
     loadMenus();
 
-    // Sinkronisasi checkbox dan input hidden (pakai event delegation, dengan log)
+    // Sinkronisasi checkbox dan input hidden (pakai event delegation, selector relatif)
     $(document).on('change', '#menu_s_admin', function() {
-      $('#hidden_s_admin').val(this.checked ? 1 : 0);
-      console.log('Checkbox s_admin berubah:', this.checked, 'hidden_s_admin:', $('#hidden_s_admin').val());
+      $(this).closest('label').find('#hidden_s_admin').val(this.checked ? 1 : 0);
+      console.log('Checkbox s_admin berubah:', this.checked, 'hidden_s_admin:', $(this).closest('label').find('#hidden_s_admin').val());
     });
     $(document).on('change', '#menu_admin', function() {
-      $('#hidden_admin').val(this.checked ? 1 : 0);
-      console.log('Checkbox admin berubah:', this.checked, 'hidden_admin:', $('#hidden_admin').val());
+      $(this).closest('label').find('#hidden_admin').val(this.checked ? 1 : 0);
+      console.log('Checkbox admin berubah:', this.checked, 'hidden_admin:', $(this).closest('label').find('#hidden_admin').val());
     });
     $(document).on('change', '#menu_user', function() {
-      $('#hidden_user').val(this.checked ? 1 : 0);
-      console.log('Checkbox user berubah:', this.checked, 'hidden_user:', $('#hidden_user').val());
+      $(this).closest('label').find('#hidden_user').val(this.checked ? 1 : 0);
+      console.log('Checkbox user berubah:', this.checked, 'hidden_user:', $(this).closest('label').find('#hidden_user').val());
     });
 
     // Saat buka modal edit/tambah, set hidden sesuai checkbox
